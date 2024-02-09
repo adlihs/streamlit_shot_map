@@ -1,4 +1,3 @@
 mplsoccer
 pandas
 duckdb
-unicodedata
