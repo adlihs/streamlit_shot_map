@@ -1,36 +1,17 @@
-import dropbox
 import pandas as pd
+import duckdb
+import os
+import numpy as np
+from PIL import Image
+import matplotlib.image as mpimg
 
-def dropbox_list_files(path):
-    """Return a Pandas dataframe of files in a given Dropbox folder path in the Apps directory.
-    """
-    # Configurar el token de acceso
-    token = 'sl.Bf8HEf15Vg82vh1xrPd4iy4x56AUz7q0HMPfK5ggkXpy0kZypbeaxTZ2FwiA1oSxTMY8kBUomrHt490uMX5D4WlOrRtNZ5DrX8ZOn81U4UuUEbpprL7CyP4e9l3mJJ0If6DELP10'
+from mplsoccer import (VerticalPitch, Pitch, create_transparent_cmap,
+                       FontManager, arrowhead_marker, add_image)
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+from matplotlib.patches import FancyBboxPatch
+from matplotlib.colors import to_rgba, LinearSegmentedColormap
+import unicodedata
 
-    # Crear una instancia del cliente de Dropbox
-    dbx = dropbox.Dropbox(token)
+pd.set_option('display.max_columns', None)
 
-    #dbx = dropbox_connect()
-
-    try:
-        files = dbx.files_list_folder(path).entries
-        files_list = []
-        for file in files:
-            if isinstance(file, dropbox.files.FileMetadata):
-                metadata = {
-                    'name': file.name,
-                    'path_display': file.path_display,
-                    'client_modified': file.client_modified,
-                    'server_modified': file.server_modified
-                }
-                files_list.append(metadata)
-
-        df = pd.DataFrame.from_records(files_list)
-        return df.sort_values(by='server_modified', ascending=False)
-
-    except Exception as e:
-        print('Error getting list of files from Dropbox: ' + str(e))
-
-
-
-dropbox_list_files('/PFSA')
