@@ -1,3 +1,4 @@
 mplsoccer
 pandas
 duckdb
+openpyxl
