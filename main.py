@@ -202,6 +202,37 @@ def player_shot_map(player=None):
     shot_label = ax.text(48.7, 50.7, 'Shots', fontsize=12, ha='center', va='center', color=pitch.line_color,
                          fontproperties=fm_rubik.prop)
 
+    xG_icon = pitch.scatter(x=50.7, y=10,
+                            # size varies between 100 and 1000 (points squared)
+                            s=200,
+                            c='#eee9e5',  # color for scatter in hex format
+                            edgecolors='#6d6a69',  # give the markers a charcoal border
+                            # for other markers types see: https://matplotlib.org/api/markers_api.html
+                            marker='.',
+                            alpha=0.5,
+                            ax=ax)
+    xG_icon = pitch.scatter(x=50.7, y=8.5,
+                            # size varies between 100 and 1000 (points squared)
+                            s=600,
+                            c='#eee9e5',  # color for scatter in hex format
+                            edgecolors='#6d6a69',  # give the markers a charcoal border
+                            # for other markers types see: https://matplotlib.org/api/markers_api.html
+                            marker='.',
+                            alpha=0.5,
+                            ax=ax)
+    xG_icon = pitch.scatter(x=50.7, y=6.5,
+                            # size varies between 100 and 1000 (points squared)
+                            s=1250,
+                            c='#eee9e5',  # color for scatter in hex format
+                            edgecolors='#6d6a69',  # give the markers a charcoal border
+                            # for other markers types see: https://matplotlib.org/api/markers_api.html
+                            marker='.',
+                            alpha=0.5,
+                            ax=ax)
+
+    xG_label = ax.text(4.7, 50.7, 'xG', fontsize=12, ha='center', va='center', color=pitch.line_color,
+                       fontproperties=fm_rubik.prop)
+
     st.pyplot(plt)
 
 
