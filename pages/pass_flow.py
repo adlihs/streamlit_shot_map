@@ -1,19 +1,37 @@
 import pandas as pd
+import duckdb
 # import os
 # import numpy as np
 # from PIL import Image
 # import matplotlib.image as mpimg
 
-from mplsoccer import (Pitch, FontManager)
+from mplsoccer import (VerticalPitch, Pitch, create_transparent_cmap,
+                       FontManager, arrowhead_marker, add_image)
 import matplotlib.pyplot as plt
 # import matplotlib.patches as patches
-from matplotlib.colors import LinearSegmentedColormap
+from matplotlib.patches import FancyBboxPatch
+from matplotlib.colors import to_rgba, LinearSegmentedColormap
+import unicodedata
 import streamlit as st
-from utils.functions_file import load_data
-
-# from functions_file import load_data, load_data_from_url
 
 pd.set_option('display.max_columns', None)
+
+
+# Función para eliminar tildes
+def eliminar_tildes(texto):
+    texto_nfd = unicodedata.normalize('NFD', texto)
+    texto_limpio = ''.join(c for c in texto_nfd if not unicodedata.combining(c))
+    return texto_limpio
+
+
+@st.cache_data
+def load_data():
+    premierleague = pd.read_parquet('data/ENG_match_events.parquet')
+    premierleague['league'] = 'Premier League'
+    pass_data = pd.concat([premierleague], ignore_index=True)
+    pass_data[['date', 'game']] = pass_data['game'].str.split(" ", n=1, expand=True)
+
+    return pass_data
 
 
 def game_flow_pass_map(soccer_data, game, game_date):
@@ -106,7 +124,7 @@ def game_flow_pass_map(soccer_data, game, game_date):
     st.pyplot(plt)
 
 
-
+data = load_data()
 # st.dataframe(data)
 
 with st.sidebar:
@@ -114,9 +132,8 @@ with st.sidebar:
     st.subheader('Big 5 Leagues')
     st.write = 'Sidebar'
     leagues = st.selectbox('Select a League',
-                           ('Premier League', 'Bundesliga', 'Serie A',
-                            'Ligue 1', 'La Liga','Premiership','Eredivisie','Primeira Liga','MLS'))
-    data = load_data(app=1,league=leagues)
+                           ('Premier League', 'Bundesliga', 'Serie A', 'Ligue 1', 'La Liga'))
+
     data = data[data['league'] == leagues]
 
     data_dates = data['date'].unique()
