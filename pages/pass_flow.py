@@ -136,7 +136,7 @@ with st.sidebar:
     st.subheader('Big 5 Leagues')
     st.write = 'Sidebar'
     leagues = st.selectbox('Select a League',
-                           ('Premier League', 'Bundesliga', 'Serie A', 'Ligue 1', 'La Liga'))
+                           ('Premier League', 'Bundesliga'))
 
     data = data[data['league'] == leagues]
 
