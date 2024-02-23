@@ -13,6 +13,7 @@ from matplotlib.patches import FancyBboxPatch
 #from matplotlib.colors import to_rgba, LinearSegmentedColormap
 import unicodedata
 import streamlit as st
+from streamlit.components.v1 import html
 
 
 st.header("Welcome!")
@@ -26,7 +27,13 @@ st.text(intro_text)
 st.markdown(f"[LinkedIn](https://www.linkedin.com/in/edmundneil)")
 st.markdown(f"[Tableau Public Profile](https://public.tableau.com/app/profile/edmondneil/vizzes)")
 
-buy_me_coffe = """
-<a href="https://www.buymeacoffee.com/edmundneil" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 50px !important;width: 107px !important;" ></a>
+# Define your javascript
+my_js = """
+type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="edmundneil" data-color="#5F7FFF" data-emoji=""  data-font="Lato" data-text="Buy me a chocolate" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00" >
 """
-st.markdown(buy_me_coffe,unsafe_allow_html=True)
+
+# Wrapt the javascript as html code
+my_html = f"<script {my_js}</script>"
+
+# Execute
+html(my_html)
