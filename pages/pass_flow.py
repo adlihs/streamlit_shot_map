@@ -26,9 +26,13 @@ def eliminar_tildes(texto):
 
 @st.cache_data
 def load_data():
-    premierleague = pd.read_parquet('data/ENG_match_events.parquet')
+    premierleague = pd.read_csv(
+        'https://github.com/adlihs/streamlit_shot_map/releases/download/soccer/ENG_match_events.csv')
+    bundesliga = pd.read_csv(
+        'https://github.com/adlihs/streamlit_shot_map/releases/download/soccer/GER_match_events.csv')
     premierleague['league'] = 'Premier League'
-    pass_data = pd.concat([premierleague], ignore_index=True)
+    bundesliga['league'] = 'Bundesliga'
+    pass_data = pd.concat([premierleague, bundesliga], ignore_index=True)
     pass_data[['date', 'game']] = pass_data['game'].str.split(" ", n=1, expand=True)
 
     return pass_data
