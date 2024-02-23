@@ -29,7 +29,7 @@ st.markdown(f"[Tableau Public Profile](https://public.tableau.com/app/profile/ed
 
 # Define your javascript
 my_js = """
-type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="edmundneil" data-color="#5F7FFF" data-emoji=""  data-font="Lato" data-text="Buy me a chocolate" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00" >
+type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="edmundneil" data-color="#5F7FFF" data-emoji=""  data-font="Lato" data-text="Buy me a chocolate" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00" style="background-color: black >
 """
 
 # Wrapt the javascript as html code
