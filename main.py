@@ -36,4 +36,4 @@ type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min
 my_html = f"<script {my_js}</script>"
 
 # Execute
-html(my_html)
+#html(my_html)
