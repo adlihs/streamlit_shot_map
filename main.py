@@ -40,6 +40,7 @@ st.markdown(
             position: fixed;
             bottom: 60px;
             right: 40px;
+            background-color: black;
         }
     </style>
     """,
