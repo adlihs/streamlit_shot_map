@@ -27,13 +27,3 @@ st.text(intro_text)
 st.markdown(f"[LinkedIn](https://www.linkedin.com/in/edmundneil)")
 st.markdown(f"[Tableau Public Profile](https://public.tableau.com/app/profile/edmondneil/vizzes)")
 
-# Define your javascript
-my_js = """
-type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="edmundneil" data-color="#5F7FFF" data-emoji=""  data-font="Lato" data-text="Buy me a chocolate" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00" >
-"""
-
-# Wrapt the javascript as html code
-my_html = f"<script {my_js}</script>"
-
-# Execute
-#html(my_html)
