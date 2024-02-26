@@ -32,8 +32,10 @@ def load_data():
     premierleague['season'] = '23-24'
     bundesliga['league'] = 'Bundesliga'
     bundesliga['season'] = '23-24'
+
     pass_data = pd.concat([premierleague, bundesliga], ignore_index=True)
     pass_data[['date', 'game']] = pass_data['game'].str.split(" ", n=1, expand=True)
+
 
     return pass_data
 
@@ -85,6 +87,15 @@ def player_heatmap(soccer_data, player_name, custom_color):
 
 data = load_data()
 data = data[data['player'].notna()]
+mapeo = {
+    'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u','ü':'u', 'ø':'o',
+    'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U','Ü':'U', 'Ø':'O'
+}
+# Reemplazar las letras con tilde por las mismas letras sin tilde
+data['player'] = data['player'].apply(lambda x: ''.join([mapeo.get(char, char) for char in x]))
+
+
+
 # st.dataframe(data)
 
 with st.sidebar:
@@ -104,6 +115,7 @@ with st.sidebar:
     )
     data = data[(data['league'] == leagues) & (data['team'] == team_name)]
     data_players = data['player'].unique()
+
 
     players = st.selectbox(
         'Select a Game',
