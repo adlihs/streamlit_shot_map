@@ -1,22 +1,57 @@
 import pandas as pd
 import duckdb
-# import os
-# import numpy as np
-# import matplotlib.image as mpimg
+#import os
+#import numpy as np
+from PIL import Image
+#import matplotlib.image as mpimg
 
-from mplsoccer import (VerticalPitch, FontManager)
+from mplsoccer import (VerticalPitch, Pitch, create_transparent_cmap,
+                       FontManager, arrowhead_marker, add_image)
 import matplotlib.pyplot as plt
-# import matplotlib.patches as patches
+#import matplotlib.patches as patches
 from matplotlib.patches import FancyBboxPatch
-# from matplotlib.colors import to_rgba, LinearSegmentedColormap
+#from matplotlib.colors import to_rgba, LinearSegmentedColormap
+import unicodedata
 import streamlit as st
-from utils.functions_file import load_data
 
 pd.set_option('display.max_columns', None)
 
 
+# Función para eliminar tildes
+def eliminar_tildes(texto):
+    texto_nfd = unicodedata.normalize('NFD', texto)
+    texto_limpio = ''.join(c for c in texto_nfd if not unicodedata.combining(c))
+    return texto_limpio
+
+
+@st.cache_data
+def load_data():
+    bundesliga = pd.read_excel('data/GER_team_season_shots.xlsx')
+    seriea = pd.read_excel('data/ITA_team_season_shots.xlsx')
+    ligue1 = pd.read_excel('data/FRA_team_season_shots.xlsx')
+    laliga = pd.read_excel('data/ESP_team_season_shots.xlsx')
+    premierleague = pd.read_excel('data/epl_team_season_shots.xlsx')
+
+    shot_data = pd.concat([bundesliga,
+                           seriea,
+                           ligue1,
+                           laliga,
+                           premierleague], ignore_index=True)
+
+    # Cambiar 'h' por el valor de la columna 'home_team'
+    shot_data.loc[shot_data['home_away'] == 'h', 'home_away'] = shot_data['home_team']
+
+    # Cambiar 'a' por el valor de la columna 'away_team'
+    shot_data.loc[shot_data['home_away'] == 'a', 'home_away'] = shot_data['away_team']
+
+    # Aplicar la función a la columna 'texto'
+    shot_data['player'] = shot_data['player'].apply(eliminar_tildes)
+
+    return shot_data
+
+
 def player_shot_map(player=None):
-    shot_data = load_data(app=3)
+    shot_data = load_data()
     data = shot_data[shot_data['player'] == player]  # get_player_shoot_data(player=player)
     data = data.drop_duplicates()
     # team_id = data.iloc[0]['team_id']
@@ -44,6 +79,7 @@ def player_shot_map(player=None):
     total_shots = total_shots['shots'].iloc[0]
     total_shots = round(int(total_shots), 0)
 
+    print(round(float(total_shots), 1))
     # total_xG
     # total_shots
 
@@ -129,10 +165,10 @@ def player_shot_map(player=None):
 
     # ax.add_patch(xGOT_rect)
 
-    # image = Image.open('bck.png')
+    #image = Image.open('bck.png')
     # add an image
-    # ax_image = add_image(image, fig, left=0.0725, bottom=0.125, width=0.855,
-    # alpha=0.3, interpolation='hanning')
+    #ax_image = add_image(image, fig, left=0.0725, bottom=0.125, width=0.855,
+                         #alpha=0.3, interpolation='hanning')
 
     ### Shots ###
     ax.text(54.7, 62.5, total_shots, fontsize=12, ha='center', va='center', color='white', fontproperties=fm_rubik.prop)
@@ -205,7 +241,7 @@ def player_shot_map(player=None):
     st.pyplot(plt)
 
 
-data = load_data(app=3)
+data = load_data()
 
 with st.sidebar:
     st.title('Shot Map Generator :soccer:')
@@ -227,4 +263,7 @@ with st.sidebar:
         'Select a Player',
         data_teams_players)
 
+
+
 player_shot_map(player=players)
+
