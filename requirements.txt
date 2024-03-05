@@ -3,4 +3,4 @@ pandas
 duckdb
 openpyxl
 streamlit-extras
-sklearn
+scikit-learn
