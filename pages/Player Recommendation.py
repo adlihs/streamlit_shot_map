@@ -104,7 +104,8 @@ attributes = attributes[(attributes['PlayerPos'] == selected_player_position)
                         & (attributes['Min_Playing_Time'] >= start_min)
                         & (attributes['Min_Playing_Time'] <= end_min)]
 
-attributes = attributes.append(select_player)
+#attributes = attributes.append(select_player)
+attributes = pd.concat([attributes, select_player], ignore_index=True)
 
 att_players_names = attributes.copy()
 attributes = attributes.iloc[:, 7:]
