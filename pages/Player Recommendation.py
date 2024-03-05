@@ -77,7 +77,8 @@ with st.sidebar:
 
 select_comp = st.multiselect(
     'Select a League',
-    unique_tournament, key='s_comp'
+    unique_tournament, key='s_comp',
+    default='Premier League'
 )
 
 
