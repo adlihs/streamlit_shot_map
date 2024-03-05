@@ -2,3 +2,5 @@ mplsoccer
 pandas
 duckdb
 openpyxl
+streamlit-extras
+scikit-learn
