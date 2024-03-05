@@ -121,7 +121,7 @@ attributes = attributes.reset_index(drop=True)
 scaled = StandardScaler()
 x = scaled.fit_transform(attributes)
 
-recommendations = NearestNeighbors(n_neighbors=4, algorithm='auto', p=2).fit(x)
+recommendations = NearestNeighbors(n_neighbors=8, algorithm='auto', p=2).fit(x)
 player_index = recommendations.kneighbors(x)[1]
 
 
@@ -150,5 +150,5 @@ rec_result = recommend_players(players, data_to_filter=load_data())
 
 # player_shot_map(player=players)
 # st.dataframe(unique_age)
-st.dataframe(rec_result['Player'].unique())
+st.dataframe(rec_result)
 #st.text(rec_result['Player'].unique())
