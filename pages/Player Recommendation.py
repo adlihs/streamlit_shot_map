@@ -141,7 +141,7 @@ def recommend_players(player,data_to_filter):
 
             player_list.append(bck_attributes.iloc[i]['Player'])
 
-    filtered_df = data_to_filter[data_to_filter['Player'].isin(player_list)]
+    filtered_df = data_to_filter[data_to_filter['Player'].isin(player_list) & (data_to_filter['Comp'].isin(select_comp))]
 
     return filtered_df
 
