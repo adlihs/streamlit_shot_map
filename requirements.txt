@@ -4,3 +4,4 @@ duckdb
 openpyxl
 streamlit-extras
 scikit-learn
+parquet
