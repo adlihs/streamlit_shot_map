@@ -13,6 +13,9 @@ from matplotlib.patches import FancyBboxPatch
 from matplotlib.colors import to_rgba, LinearSegmentedColormap
 import unicodedata
 import streamlit as st
+import parquet
+
+# from functions_file import load_data, load_data_from_url
 
 pd.set_option('display.max_columns', None)
 
@@ -26,16 +29,23 @@ def eliminar_tildes(texto):
 
 @st.cache_data
 def load_data():
-    premierleague = pd.read_csv(
-        'https://github.com/adlihs/streamlit_shot_map/releases/download/soccer/ENG_match_events.csv')
-    bundesliga = pd.read_csv(
-        'https://github.com/adlihs/streamlit_shot_map/releases/download/soccer/GER_match_events.csv')
+    premierleague = pd.read_parquet(
+        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ENG_match_events.parquet')
+
+    bundesliga = pd.read_parquet(
+        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/GER_match_events.parquet')
+
+    serieA = pd.read_parquet(
+        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ITA_match_events.parquet')
+    #print(bundesliga.dtypes)
     premierleague['league'] = 'Premier League'
     bundesliga['league'] = 'Bundesliga'
-    pass_data = pd.concat([premierleague, bundesliga], ignore_index=True)
+    serieA['league'] = 'Serie A'
+    pass_data = pd.concat([premierleague, bundesliga,serieA], ignore_index=True)
     pass_data[['date', 'game']] = pass_data['game'].str.split(" ", n=1, expand=True)
 
     return pass_data
+
 
 
 def game_flow_pass_map(soccer_data, game, game_date):
@@ -136,7 +146,7 @@ with st.sidebar:
     st.subheader('Big 5 Leagues')
     st.write = 'Sidebar'
     leagues = st.selectbox('Select a League',
-                           ('Premier League', 'Bundesliga'))
+                           ('Premier League', 'Bundesliga', 'Serie A'))
 
     data = data[data['league'] == leagues]
 

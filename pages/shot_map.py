@@ -2,7 +2,7 @@ import pandas as pd
 import duckdb
 #import os
 #import numpy as np
-#from PIL import Image
+from PIL import Image
 #import matplotlib.image as mpimg
 
 from mplsoccer import (VerticalPitch, Pitch, create_transparent_cmap,
@@ -164,6 +164,11 @@ def player_shot_map(player=None):
     # fontproperties=fm_rubik.prop, color=pitch.line_color)
 
     # ax.add_patch(xGOT_rect)
+
+    #image = Image.open('bck.png')
+    # add an image
+    #ax_image = add_image(image, fig, left=0.0725, bottom=0.125, width=0.855,
+                         #alpha=0.3, interpolation='hanning')
 
     ### Shots ###
     ax.text(54.7, 62.5, total_shots, fontsize=12, ha='center', va='center', color='white', fontproperties=fm_rubik.prop)

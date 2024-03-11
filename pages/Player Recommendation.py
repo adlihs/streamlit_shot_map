@@ -122,7 +122,7 @@ attributes = attributes.reset_index(drop=True)
 scaled = StandardScaler()
 x = scaled.fit_transform(attributes)
 
-recommendations = NearestNeighbors(n_neighbors=6, algorithm='auto', p=2).fit(x)
+recommendations = NearestNeighbors(n_neighbors=8, algorithm='auto', p=2).fit(x)
 player_index = recommendations.kneighbors(x)[1]
 
 
