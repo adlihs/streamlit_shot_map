@@ -37,11 +37,15 @@ def load_data():
 
     serieA = pd.read_parquet(
         'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ITA_match_events.parquet')
+
+    ligue1 = pd.read_parquet(
+        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/FRA_match_events.parquet')
     #print(bundesliga.dtypes)
     premierleague['league'] = 'Premier League'
     bundesliga['league'] = 'Bundesliga'
     serieA['league'] = 'Serie A'
-    pass_data = pd.concat([premierleague, bundesliga,serieA], ignore_index=True)
+    ligue1['league'] = 'Ligue 1'
+    pass_data = pd.concat([premierleague, bundesliga,serieA,ligue1], ignore_index=True)
     pass_data[['date', 'game']] = pass_data['game'].str.split(" ", n=1, expand=True)
 
     return pass_data
@@ -146,7 +150,7 @@ with st.sidebar:
     st.subheader('Big 5 Leagues')
     st.write = 'Sidebar'
     leagues = st.selectbox('Select a League',
-                           ('Premier League', 'Bundesliga', 'Serie A'))
+                           ('Premier League', 'Bundesliga', 'Serie A','Ligue 1'))
 
     data = data[data['league'] == leagues]
 
