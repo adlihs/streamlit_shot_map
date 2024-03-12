@@ -79,7 +79,7 @@ def player_shot_map(player=None):
     total_shots = total_shots['shots'].iloc[0]
     total_shots = round(int(total_shots), 0)
 
-    print(round(float(total_shots), 1))
+
     # total_xG
     # total_shots
 

@@ -57,6 +57,7 @@ def load_data():
     pass_data[['date', 'game']] = pass_data['game'].str.split(" ", n=1, expand=True)
     pass_data['season'] = '23-24'
 
+
     return pass_data
 
 
