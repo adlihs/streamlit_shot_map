@@ -122,7 +122,7 @@ attributes = attributes.reset_index(drop=True)
 scaled = StandardScaler()
 x = scaled.fit_transform(attributes)
 
-recommendations = NearestNeighbors(n_neighbors=8, algorithm='auto', p=2).fit(x)
+recommendations = NearestNeighbors(n_neighbors=6, algorithm='auto', p=2).fit(x)
 player_index = recommendations.kneighbors(x)[1]
 
 
@@ -141,7 +141,9 @@ def recommend_players(player,data_to_filter):
 
             player_list.append(bck_attributes.iloc[i]['Player'])
 
-    filtered_df = data_to_filter[data_to_filter['Player'].isin(player_list) & (data_to_filter['Comp'].isin(select_comp))]
+    filtered_df = data_to_filter[data_to_filter['Player'].isin(player_list) &
+                                 (data_to_filter['Comp'].isin(select_comp)) &
+                                 (data_to_filter['Min_Playing_Time']>=start_min)]
 
     return filtered_df
 

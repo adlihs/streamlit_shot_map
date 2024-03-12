@@ -29,6 +29,7 @@ def eliminar_tildes(texto):
 
 @st.cache_data
 def load_data():
+    '''
     premierleague = pd.read_parquet(
         'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ENG_match_events.parquet')
 
@@ -46,7 +47,15 @@ def load_data():
     serieA['league'] = 'Serie A'
     ligue1['league'] = 'Ligue 1'
     pass_data = pd.concat([premierleague, bundesliga,serieA,ligue1], ignore_index=True)
+    '''
+    pass_data = pd.concat(map(pd.read_parquet, [
+        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ENG_match_events.parquet',
+        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/GER_match_events.parquet',
+        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ITA_match_events.parquet',
+        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/FRA_match_events.parquet']))
+
     pass_data[['date', 'game']] = pass_data['game'].str.split(" ", n=1, expand=True)
+    pass_data['season'] = '23-24'
 
     return pass_data
 
