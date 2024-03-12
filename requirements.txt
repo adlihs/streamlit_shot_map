@@ -5,4 +5,4 @@ openpyxl
 streamlit-extras
 scikit-learn
 parquet
-highlight_text
+highlight-text
