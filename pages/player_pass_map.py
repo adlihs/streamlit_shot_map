@@ -67,7 +67,7 @@ def player_pass_maps(data, player_name, type):
 
     pitch = Pitch(pitch_type='opta',
                   line_zorder=2,
-                  line_color='#01161E',
+                  line_color='#6d6a69',
                   pitch_color='#eee9e5')  # control the goal transparency
     fig, ax = pitch.draw(figsize=(12, 10))
     fig.set_facecolor("#eee9e5")
@@ -132,7 +132,7 @@ def player_pass_maps(data, player_name, type):
     txt_title_team = ax.text(x=0, y=109, s=player_n + ' passes',
                              size=40,
                              # here i am using a downloaded font from google fonts instead of passing a fontdict
-                             fontproperties=fm_rubik.prop, color='#0D2C54')
+                             fontproperties=fm_rubik.prop, color=pitch.line_color)
 
     ax.text(x=0.1, y=104.5,
             s=str(team_n) + " | " + str(league_n) + " | " + str(games),
