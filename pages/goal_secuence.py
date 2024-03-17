@@ -27,6 +27,16 @@ def load_data():
     pass_data[['date', 'game']] = pass_data['game'].str.split(" ", n=1, expand=True)
     pass_data['season'] = '23-24'
 
+    pass_data = pass_data[pass_data['player'].notna()]
+    # pass_data['player'] = pass_data['player'].apply(eliminar_tildes)
+    mapeo = {
+        'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ø': 'o',
+        'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ø': 'O'
+    }
+
+    # Reemplazar las letras con tilde por las mismas letras sin tilde
+    pass_data['player'] = pass_data['player'].apply(lambda x: ''.join([mapeo.get(char, char) for char in x]))
+
     return pass_data
 
 
@@ -57,13 +67,6 @@ def viz_previous_events(soccer_data=None, game=None, minute=None):
     genai.configure(api_key=gem_api)
     model = genai.GenerativeModel('gemini-pro')
 
-    mapeo = {
-        'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ü': 'u', 'ø': 'o',
-        'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ü': 'U', 'Ø': 'O'
-    }
-    # Reemplazar las letras con tilde por las mismas letras sin tilde
-    soccer_data['player'] = soccer_data['player'].apply(lambda x: ''.join([mapeo.get(char, char) for char in x]))
-    
     soccer_data = soccer_data.sort_values(by=["minute", "second"])
     soccer_data = soccer_data[(soccer_data['game'] == game) &
                               (soccer_data['goal_index'] == minute)]
