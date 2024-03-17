@@ -57,6 +57,13 @@ def viz_previous_events(soccer_data=None, game=None, minute=None):
     genai.configure(api_key=gem_api)
     model = genai.GenerativeModel('gemini-pro')
 
+    mapeo = {
+        'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ü': 'u', 'ø': 'o',
+        'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ü': 'U', 'Ø': 'O'
+    }
+    # Reemplazar las letras con tilde por las mismas letras sin tilde
+    soccer_data['player'] = soccer_data['player'].apply(lambda x: ''.join([mapeo.get(char, char) for char in x]))
+    
     soccer_data = soccer_data.sort_values(by=["minute", "second"])
     soccer_data = soccer_data[(soccer_data['game'] == game) &
                               (soccer_data['goal_index'] == minute)]
@@ -217,13 +224,7 @@ def viz_previous_events(soccer_data=None, game=None, minute=None):
 
 
 data = load_data()
-data = data[data['player'].notna()]
-mapeo = {
-    'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u','ü':'u', 'ø':'o',
-    'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U','Ü':'U', 'Ø':'O'
-}
-# Reemplazar las letras con tilde por las mismas letras sin tilde
-data['player'] = data['player'].apply(lambda x: ''.join([mapeo.get(char, char) for char in x]))
+
 
 with st.sidebar:
     st.title('Pass Flow Generator :soccer:')
