@@ -227,7 +227,7 @@ def viz_previous_events(soccer_data=None, game=None, minute=None):
 
 
 data = load_data()
-
+base_data = data.copy()
 
 with st.sidebar:
     st.title('Pass Flow Generator :soccer:')
@@ -258,8 +258,6 @@ with st.sidebar:
         'Select a Goal Minute',
         data_minutes)
 
-
-base_data = load_data()
 
 goals_previous_actions_df = goals_previous_actions(actions_data=base_data, team=teams)
 
