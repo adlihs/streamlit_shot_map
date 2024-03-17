@@ -27,7 +27,7 @@ def load_data():
     pass_data[['date', 'game']] = pass_data['game'].str.split(" ", n=1, expand=True)
     pass_data['season'] = '23-24'
 
-    pass_data = pass_data[pass_data['player'].notna()]
+    #pass_data = pass_data[pass_data['player'].notna()]
     # pass_data['player'] = pass_data['player'].apply(eliminar_tildes)
     mapeo = {
         'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ø': 'o',
