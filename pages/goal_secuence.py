@@ -28,14 +28,8 @@ def load_data():
     pass_data['season'] = '23-24'
 
     #pass_data = pass_data[pass_data['player'].notna()]
-    # pass_data['player'] = pass_data['player'].apply(eliminar_tildes)
-    mapeo = {
-        'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ø': 'o',
-        'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ø': 'O'
-    }
-
-    # Reemplazar las letras con tilde por las mismas letras sin tilde
-    pass_data['player'] = pass_data['player'].apply(lambda x: ''.join([mapeo.get(char, char) for char in x]))
+    pass_data['player'] = pass_data['player'].apply(eliminar_tildes)
+    
 
     return pass_data
 
