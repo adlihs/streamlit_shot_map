@@ -6,3 +6,5 @@ streamlit-extras
 scikit-learn
 parquet
 highlight-text
+google-ai-generativelanguage==0.4.0
+google-generativeai==0.3.2
