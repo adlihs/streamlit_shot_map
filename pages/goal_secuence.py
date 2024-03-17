@@ -28,7 +28,7 @@ def load_data():
     pass_data['season'] = '23-24'
 
     #pass_data = pass_data[pass_data['player'].notna()]
-    pass_data['player'] = pass_data['player'].apply(eliminar_tildes)
+    #pass_data['player'] = pass_data['player'].apply(eliminar_tildes)
     
 
     return pass_data
