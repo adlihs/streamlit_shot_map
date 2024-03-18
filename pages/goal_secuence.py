@@ -146,7 +146,7 @@ def viz_previous_events(soccer_data=None, game=None, team=None, minute=None):
         if str(goal_team) != str(rival_team):
             soccer_data = modificar_fila_anterior(soccer_data, row.Index, 'x_siguiente', 'y_siguiente', (100 - row.x),
                                                   (100 - row.y))
-            st.dataframe(soccer_data)
+            # st.dataframe(soccer_data)
 
     # Se recorre el DF para ir ploteando lineas y circulos de las acciones del gol
     for row in soccer_data.itertuples():
@@ -380,7 +380,7 @@ def viz_previous_events(soccer_data=None, game=None, team=None, minute=None):
 
     text = narrative_df.to_string(index=False, header=True)
 
-    order_txt = "I'm going to give you a Index, team, player name, minute, second and action for a soccer game goal, please re-create briefly the play using the data, use only the information provided, put between () the Index, include all the actions for the teams in order base the Index, and i want a bulleted list:" + text
+    order_txt = "I'm going to give you a Index, team, player name, minute, second and action for a soccer game goal, please re-create briefly the play using the data, use only the information provided, put between () the Index, include all the actions for the teams in order based on the Index, and i want a bulleted list:" + text
     response = model.generate_content(order_txt)
     # print(response.text)
 
@@ -391,7 +391,8 @@ def viz_previous_events(soccer_data=None, game=None, team=None, minute=None):
     #        color=pitch.line_color)
 
     st.pyplot(plt)
-    st.text(response.text)
+    st.markdown('***AI GOAL DESCRIPTION***')
+    st.markdown(response.text)
 
 
 data = load_data()
@@ -427,9 +428,15 @@ with st.sidebar:
         'Select a Goal Minute',
         data_minutes)
 
+    viz = st.button("Apply", type="primary")
+
 base_data = base_data[(base_data['league'] == leagues) &
                       (base_data['game'] == games)]
 
-goals_previous_actions_df = goals_previous_actions(actions_data=base_data, team=teams)
-
-viz_previous_events(soccer_data=goals_previous_actions_df, game=games, minute=minutes)
+if viz and data_minutes.shape[0] > 0:
+    goals_previous_actions_df = goals_previous_actions(actions_data=base_data, team=teams)
+    viz_previous_events(soccer_data=goals_previous_actions_df, game=games, minute=minutes)
+elif not viz and data_minutes.shape[0] == 0:
+    st.text('No goals to display. Select another game...')
+elif viz and data_minutes.shape[0] == 0:
+    st.text('No goals to display. Select another game...')
