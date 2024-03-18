@@ -399,7 +399,7 @@ data = load_data()
 base_data = data.copy()
 
 with st.sidebar:
-    st.title('Pass Flow Generator :soccer:')
+    st.title('Goal Secuence Generator :soccer:')
     st.subheader('Big 5 Leagues')
     st.write = 'Sidebar'
     leagues = st.selectbox('Select a League',
