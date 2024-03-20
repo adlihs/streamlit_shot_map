@@ -1,18 +1,13 @@
 import pandas as pd
-import duckdb
 # import google.generativeai as genai
 import google.generativeai as genai
-import streamlit
-from mplsoccer import (VerticalPitch, Pitch, create_transparent_cmap,
-                       FontManager, arrowhead_marker, add_image)
+from mplsoccer import (Pitch, FontManager)
 import matplotlib.pyplot as plt
 
-from matplotlib.patches import FancyBboxPatch
-from matplotlib.colors import to_rgba, LinearSegmentedColormap
-import unicodedata
+from matplotlib.colors import LinearSegmentedColormap
 import streamlit as st
 
-from functions_file import load_data
+from pages.functions_file import load_data
 
 
 def goals_previous_actions(actions_data, team):

@@ -1,15 +1,11 @@
 import pandas as pd
 
-from mplsoccer import (VerticalPitch, Pitch, create_transparent_cmap,
-                       FontManager, arrowhead_marker, add_image)
+from mplsoccer import (Pitch, FontManager)
 import matplotlib.pyplot as plt
 
-from matplotlib.colors import to_rgba, LinearSegmentedColormap
-import unicodedata
-from highlight_text import HighlightText, ax_text, fig_text
+from highlight_text import ax_text
 import streamlit as st
-from functions_file import load_data
-import parquet
+from pages.functions_file import load_data
 
 # from functions_file import load_data, load_data_from_url
 
