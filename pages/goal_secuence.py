@@ -12,35 +12,7 @@ from matplotlib.colors import to_rgba, LinearSegmentedColormap
 import unicodedata
 import streamlit as st
 
-
-def eliminar_tildes(texto):
-    texto_nfd = unicodedata.normalize('NFD', texto)
-    texto_limpio = ''.join(c for c in texto_nfd if not unicodedata.combining(c))
-    return texto_limpio
-
-
-@st.cache_data
-def load_data():
-    pass_data = pd.concat(map(pd.read_parquet, [
-        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ENG_match_events.parquet',
-        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/GER_match_events.parquet',
-        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ITA_match_events.parquet',
-        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/FRA_match_events.parquet']))
-
-    pass_data[['date', 'game']] = pass_data['game'].str.split(" ", n=1, expand=True)
-    pass_data['season'] = '23-24'
-
-    pass_data = pass_data[pass_data['player'].notna()]
-    # pass_data['player'] = pass_data['player'].apply(eliminar_tildes)
-    mapeo = {
-        'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ø': 'o',
-        'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ø': 'O'
-    }
-
-    # Reemplazar las letras con tilde por las mismas letras sin tilde
-    pass_data['player'] = pass_data['player'].apply(lambda x: ''.join([mapeo.get(char, char) for char in x]))
-
-    return pass_data
+from functions_file import load_data
 
 
 def goals_previous_actions(actions_data, team):
@@ -375,13 +347,18 @@ def viz_previous_events(soccer_data=None, game=None, team=None, minute=None):
 
     ### Goal AI narrative
 
-    narrative_df = soccer_data[['team', 'player', 'minute', 'second', 'type']].rename(columns={'type': 'action'})
+    narrative_df = soccer_data[['team', 'player', 'minute', 'second', 'type', 'x', 'y']].rename(
+        columns={'type': 'action'})
     narrative_df = narrative_df.reset_index()
 
     text = narrative_df.to_string(index=False, header=True)
+    print(text)
 
-    order_txt = "I'm going to give you a Index, team, player name, minute, second and action for a soccer game goal, please re-create briefly the play using the data, use only the information provided, put between () the Index, include all the actions for the teams in order based on the Index, and i want a bulleted list:" + text
+    order_txt = "I'm going to give you a Index, team, player name, minute, second and action for a soccer game goal, to help you understand the position of the action the pitch widht is 100 and the height is 100, so analize the position of the action, do not include coordinates, and please re-create briefly the play using the data, use only the information provided, put between () the Index, include all the actions for the teams in order based on the Index, and i want a bulleted list:" + text
     response = model.generate_content(order_txt)
+
+    order_txt2 = "The next data is for a secuence of action before a goal is scored, please analyze it and write a brief and simple description of the play as a soccer commentator, use only the information provided in the order provided:  " + text
+    response2 = model.generate_content(order_txt2)
     # print(response.text)
 
     # ax.text(x=0.1, y=0.5,
@@ -393,17 +370,19 @@ def viz_previous_events(soccer_data=None, game=None, team=None, minute=None):
     st.pyplot(plt)
     st.markdown('***AI GOAL DESCRIPTION***')
     st.markdown(response.text)
+    st.markdown('***AI GOAL COMMENTATOR***')
+    st.markdown(response2.text)
 
 
-data = load_data()
+data = load_data(app=1)
 base_data = data.copy()
 
 with st.sidebar:
-    st.title('Goal Secuence Generator :soccer:')
+    st.title('Pass Flow Generator :soccer:')
     st.subheader('Big 5 Leagues')
     st.write = 'Sidebar'
     leagues = st.selectbox('Select a League',
-                           ('Premier League', 'Bundesliga', 'Serie A', 'Ligue 1'))
+                           ('Premier League', 'Bundesliga', 'Serie A', 'Ligue 1', 'La Liga'))
 
     data = data[data['league'] == leagues]
 

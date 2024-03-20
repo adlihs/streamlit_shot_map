@@ -15,30 +15,32 @@ from matplotlib.patches import FancyBboxPatch
 # from matplotlib.colors import to_rgba, LinearSegmentedColormap
 import unicodedata
 import streamlit as st
+from functions_file import load_data
 
 pd.set_option('display.max_columns', None)
 
 # Define the dictionary
 player_positions = {
     'Centre-Back': ['Centre-Back', 'DF'],
-    'Defensive Midfield': ['Defensive Midfield','midfield', 'MF'],
-    'Left-Back': ['Left-Back','DF'],
-    'Left Winger': ['Left Winger','FW', 'attack'],
-    'Central Midfield': ['Central Midfield','midfield', 'MF'],
-    'Centre-Forward': ['Centre-Forward','attack', 'FW'],
-    'Right-Back': ['Right-Back','DF'],
-    'FW': ['FW','attack', 'Centre-Forward', 'Second Striker'],
-    'DF': ['DF','Centre-Back', 'Left-Back', 'Right-Back'],
-    'MF': ['MF','Defensive Midfield', 'Central Midfield', 'Attacking Midfield', 'Left Midfield', 'Right Midfield',
+    'Defensive Midfield': ['Defensive Midfield', 'midfield', 'MF'],
+    'Left-Back': ['Left-Back', 'DF'],
+    'Left Winger': ['Left Winger', 'FW', 'attack'],
+    'Central Midfield': ['Central Midfield', 'midfield', 'MF'],
+    'Centre-Forward': ['Centre-Forward', 'attack', 'FW'],
+    'Right-Back': ['Right-Back', 'DF'],
+    'FW': ['FW', 'attack', 'Centre-Forward', 'Second Striker'],
+    'DF': ['DF', 'Centre-Back', 'Left-Back', 'Right-Back'],
+    'MF': ['MF', 'Defensive Midfield', 'Central Midfield', 'Attacking Midfield', 'Left Midfield', 'Right Midfield',
            'midfield'],
-    'Attacking Midfield': ['Attacking Midfield','midfield', 'MF'],
-    'Right Winger': ['Right Winger','FW', 'attack'],
-    'Left Midfield': ['Left Midfield','midfield', 'MF'],
-    'midfield': ['midfield','Defensive Midfield', 'Central Midfield', 'Attacking Midfield', 'Left Midfield', 'Right Midfield',
+    'Attacking Midfield': ['Attacking Midfield', 'midfield', 'MF'],
+    'Right Winger': ['Right Winger', 'FW', 'attack'],
+    'Left Midfield': ['Left Midfield', 'midfield', 'MF'],
+    'midfield': ['midfield', 'Defensive Midfield', 'Central Midfield', 'Attacking Midfield', 'Left Midfield',
+                 'Right Midfield',
                  'midfield'],
-    'attack': ['attack','Centre-Forward', 'FW', 'Second Striker'],
-    'Right Midfield': ['Right Midfield','midfield', 'MF'],
-    'Second Striker': ['Second Striker','FW', 'attack']
+    'attack': ['attack', 'Centre-Forward', 'FW', 'Second Striker'],
+    'Right Midfield': ['Right Midfield', 'midfield', 'MF'],
+    'Second Striker': ['Second Striker', 'FW', 'attack']
 }
 
 
@@ -59,24 +61,7 @@ def get_player_positions(position):
         return []
 
 
-# Función para eliminar tildes
-def eliminar_tildes(texto):
-    texto_nfd = unicodedata.normalize('NFD', texto)
-    texto_limpio = ''.join(c for c in texto_nfd if not unicodedata.combining(c))
-    return texto_limpio
-
-
-@st.cache_data
-def load_data():
-    player_data = pd.read_csv('data/player_unique_recommendations.csv')
-
-    # Aplicar la función a la columna 'texto'
-    player_data['Player'] = player_data['Player'].apply(eliminar_tildes)
-
-    return player_data
-
-
-data = load_data()
+data = load_data(app=2)
 select_player_data = data.copy()  # data to player selection sliders
 recommend_data = data.copy()
 unique_players = recommend_data['Player'].unique()
@@ -134,9 +119,8 @@ start_min, end_min = st.select_slider(
 
 ### ------------------------ ###
 select_player = data[data['Player'] == players]
-attributes = load_data()
+attributes = load_data(app=2)
 selected_player_position = select_player['PlayerPos'].unique()[0]
-
 
 options = get_player_positions(selected_player_position)
 print(options)
@@ -191,10 +175,11 @@ def recommend_players(player, data_to_filter):
     return filtered_df
 
 
-rec_result = recommend_players(players, data_to_filter=load_data())
+rec_result = recommend_players(players, data_to_filter=load_data(app=2))
 ### ------------------------ ###
 
 # player_shot_map(player=players)
 # st.dataframe(unique_age)
 st.dataframe(rec_result)
+
 # st.text(rec_result['Player'].unique())

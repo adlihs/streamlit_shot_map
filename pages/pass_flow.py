@@ -14,52 +14,11 @@ from matplotlib.colors import to_rgba, LinearSegmentedColormap
 import unicodedata
 import streamlit as st
 import parquet
+from functions_file import load_data
 
 # from functions_file import load_data, load_data_from_url
 
 pd.set_option('display.max_columns', None)
-
-
-# Función para eliminar tildes
-def eliminar_tildes(texto):
-    texto_nfd = unicodedata.normalize('NFD', texto)
-    texto_limpio = ''.join(c for c in texto_nfd if not unicodedata.combining(c))
-    return texto_limpio
-
-
-@st.cache_data
-def load_data():
-    '''
-    premierleague = pd.read_parquet(
-        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ENG_match_events.parquet')
-
-    bundesliga = pd.read_parquet(
-        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/GER_match_events.parquet')
-
-    serieA = pd.read_parquet(
-        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ITA_match_events.parquet')
-
-    ligue1 = pd.read_parquet(
-        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/FRA_match_events.parquet')
-    #print(bundesliga.dtypes)
-    premierleague['league'] = 'Premier League'
-    bundesliga['league'] = 'Bundesliga'
-    serieA['league'] = 'Serie A'
-    ligue1['league'] = 'Ligue 1'
-    pass_data = pd.concat([premierleague, bundesliga,serieA,ligue1], ignore_index=True)
-    '''
-    pass_data = pd.concat(map(pd.read_parquet, [
-        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ENG_match_events.parquet',
-        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/GER_match_events.parquet',
-        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ITA_match_events.parquet',
-        'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/FRA_match_events.parquet']))
-
-    pass_data[['date', 'game']] = pass_data['game'].str.split(" ", n=1, expand=True)
-    pass_data['season'] = '23-24'
-
-
-    return pass_data
-
 
 
 def game_flow_pass_map(soccer_data, game, game_date):
@@ -152,7 +111,7 @@ def game_flow_pass_map(soccer_data, game, game_date):
     st.pyplot(plt)
 
 
-data = load_data()
+data = load_data(app=1)
 # st.dataframe(data)
 
 with st.sidebar:
@@ -160,7 +119,7 @@ with st.sidebar:
     st.subheader('Big 5 Leagues')
     st.write = 'Sidebar'
     leagues = st.selectbox('Select a League',
-                           ('Premier League', 'Bundesliga', 'Serie A','Ligue 1'))
+                           ('Premier League', 'Bundesliga', 'Serie A', 'Ligue 1', 'La Liga'))
 
     data = data[data['league'] == leagues]
 
