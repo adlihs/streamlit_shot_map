@@ -1,43 +1,18 @@
 import pandas as pd
-import duckdb
 # import os
 # import numpy as np
 # from PIL import Image
 # import matplotlib.image as mpimg
 
-from mplsoccer import (VerticalPitch, Pitch, create_transparent_cmap,
-                       FontManager, arrowhead_marker, add_image)
+from mplsoccer import (Pitch, FontManager)
 import matplotlib.pyplot as plt
 # import matplotlib.patches as patches
-from matplotlib.patches import FancyBboxPatch
-from matplotlib.colors import to_rgba, LinearSegmentedColormap
-import unicodedata
+from matplotlib.colors import LinearSegmentedColormap
 import streamlit as st
 
+from utils.functions_file import load_data
+
 pd.set_option('display.max_columns', None)
-
-
-# Función para eliminar tildes
-def eliminar_tildes(texto):
-    texto_nfd = unicodedata.normalize('NFD', texto)
-    texto_limpio = ''.join(c for c in texto_nfd if not unicodedata.combining(c))
-    return texto_limpio
-
-
-@st.cache_data
-def load_data():
-    premierleague = pd.read_csv('https://github.com/adlihs/streamlit_shot_map/releases/download/soccer/ENG_match_events.csv')
-    bundesliga = pd.read_csv('https://github.com/adlihs/streamlit_shot_map/releases/download/soccer/GER_match_events.csv')
-    premierleague['league'] = 'Premier League'
-    premierleague['season'] = '23-24'
-    bundesliga['league'] = 'Bundesliga'
-    bundesliga['season'] = '23-24'
-
-    pass_data = pd.concat([premierleague, bundesliga], ignore_index=True)
-    pass_data[['date', 'game']] = pass_data['game'].str.split(" ", n=1, expand=True)
-
-
-    return pass_data
 
 
 def player_heatmap(soccer_data, player_name, custom_color):
@@ -59,7 +34,7 @@ def player_heatmap(soccer_data, player_name, custom_color):
     # Pitch config
     pitch = Pitch(pitch_type='opta',
                   line_zorder=2,
-                  line_color='#01161E',
+                  line_color='#6d6a69',
                   pitch_color='#eee9e5')  # control the goal transparency
     fig, ax = pitch.draw(figsize=(12, 10))
     fig.set_facecolor("#eee9e5")
@@ -85,15 +60,7 @@ def player_heatmap(soccer_data, player_name, custom_color):
     st.pyplot(plt)
 
 
-data = load_data()
-data = data[data['player'].notna()]
-mapeo = {
-    'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u','ü':'u', 'ø':'o',
-    'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U','Ü':'U', 'Ø':'O'
-}
-# Reemplazar las letras con tilde por las mismas letras sin tilde
-data['player'] = data['player'].apply(lambda x: ''.join([mapeo.get(char, char) for char in x]))
-
+data = load_data(app=1)
 
 
 # st.dataframe(data)
@@ -103,7 +70,7 @@ with st.sidebar:
     st.subheader('Big 5 Leagues')
     st.write = 'Sidebar'
     leagues = st.selectbox('Select a League',
-                           ('Premier League', 'Bundesliga'))
+                           ('Premier League', 'Bundesliga', 'Serie A', 'Ligue 1', 'La Liga'))
 
     data = data[data['league'] == leagues]
 
@@ -116,11 +83,9 @@ with st.sidebar:
     data = data[(data['league'] == leagues) & (data['team'] == team_name)]
     data_players = data['player'].unique()
 
-
     players = st.selectbox(
         'Select a Game',
         data_players)
-
 
     color = st.color_picker('Pick A Color', '#0D2C54')
 
