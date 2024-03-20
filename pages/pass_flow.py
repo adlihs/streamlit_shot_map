@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 # import matplotlib.patches as patches
 from matplotlib.colors import LinearSegmentedColormap
 import streamlit as st
-from pages.functions_file import load_data
+from utils.functions_file import load_data
 
 # from functions_file import load_data, load_data_from_url
 

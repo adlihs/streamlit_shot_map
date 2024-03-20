@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
 import streamlit as st
 
-from pages.functions_file import load_data
+from utils.functions_file import load_data
 
 
 def goals_previous_actions(actions_data, team):

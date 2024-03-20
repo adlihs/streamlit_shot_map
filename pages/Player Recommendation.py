@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 # import matplotlib.patches as patches
 # from matplotlib.colors import to_rgba, LinearSegmentedColormap
 import streamlit as st
-from pages.functions_file import load_data
+from utils.functions_file import load_data
 
 pd.set_option('display.max_columns', None)
 
