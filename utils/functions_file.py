@@ -13,31 +13,35 @@ def eliminar_tildes(texto):
 def load_data(app):
     if app == 1:  # goal_secuence, pass_flow, player_heatmap, player_pass_map
         event_data = pd.concat(map(pd.read_parquet, [
-            'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ENG_match_events.parquet',
-            'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/GER_match_events.parquet',
-            'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ITA_match_events.parquet',
-            'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ESP_match_events.parquet',
-            'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/FRA_match_events.parquet']))
+            #'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ENG_match_events.parquet',
+            #'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/GER_match_events.parquet',
+            #'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ITA_match_events.parquet',
+            #'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ESP_match_events.parquet',
+            #'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/SCO_match_events.parquet',
+            #'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/NED_match_events.parquet',
+            #'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/POR_match_events.parquet',
+            #'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/FRA_match_events.parquet']))
+            'https://github.com/adlihs/streamlit_shot_map/releases/download/soccer/match_events.parquet']))
 
         event_data[['date', 'game']] = event_data['game'].str.split(" ", n=1, expand=True)
         event_data['season'] = '23-24'
 
         event_data = event_data[event_data['player'].notna()]
 
-        mapeo = {
-            'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ø': 'o',
-            'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ø': 'O'
-        }
+        #mapeo = {
+        #    'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ø': 'o',
+        #    'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ø': 'O'
+        #}
 
         # Reemplazar las letras con tilde por las mismas letras sin tilde
-        event_data['player'] = event_data['player'].apply(lambda x: ''.join([mapeo.get(char, char) for char in x]))
+        #event_data['player'] = event_data['player'].apply(lambda x: ''.join([mapeo.get(char, char) for char in x]))
 
         return event_data
 
     elif app == 2:  # player_recommendation
         player_data = pd.read_csv(
             'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/player_unique_recommendations.csv')
-
+            #
         # Aplicar la función a la columna 'texto'
         player_data['Player'] = player_data['Player'].apply(eliminar_tildes)
 
