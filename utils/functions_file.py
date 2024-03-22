@@ -28,13 +28,13 @@ def load_data(app):
 
         event_data = event_data[event_data['player'].notna()]
 
-        #mapeo = {
-        #    'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ø': 'o',
-        #    'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ø': 'O'
-        #}
+        mapeo = {
+            'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ø': 'o',
+            'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ø': 'O'
+        }
 
         # Reemplazar las letras con tilde por las mismas letras sin tilde
-        #event_data['player'] = event_data['player'].apply(lambda x: ''.join([mapeo.get(char, char) for char in x]))
+        event_data['player'] = event_data['player'].apply(lambda x: ''.join([mapeo.get(char, char) for char in x]))
 
         return event_data
 
