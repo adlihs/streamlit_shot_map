@@ -369,16 +369,17 @@ def viz_previous_events(soccer_data=None, game=None, team=None, minute=None):
     st.markdown(response2.text)
 
 
-data = load_data(app=1)
-base_data = data.copy()
+
 
 with st.sidebar:
     st.title('Pass Flow Generator :soccer:')
     st.subheader('Big 5 Leagues')
     st.write = 'Sidebar'
     leagues = st.selectbox('Select a League',
-                           ('Premier League', 'Bundesliga', 'Serie A', 'Ligue 1', 'La Liga'))
-
+                           ('Premier League', 'Bundesliga', 'Serie A', 'Ligue 1',
+                            'La Liga','Premiership','Eredivisie','Primeira Liga'))
+    data = load_data(app=1,league=leagues)
+    base_data = data.copy()
     data = data[data['league'] == leagues]
 
     data_teams = data['team'].unique()

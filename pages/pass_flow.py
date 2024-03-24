@@ -106,7 +106,7 @@ def game_flow_pass_map(soccer_data, game, game_date):
     st.pyplot(plt)
 
 
-data = load_data(app=1)
+
 # st.dataframe(data)
 
 with st.sidebar:
@@ -114,8 +114,9 @@ with st.sidebar:
     st.subheader('Big 5 Leagues')
     st.write = 'Sidebar'
     leagues = st.selectbox('Select a League',
-                           ('Premier League', 'Bundesliga', 'Serie A', 'Ligue 1', 'La Liga'))
-
+                           ('Premier League', 'Bundesliga', 'Serie A',
+                            'Ligue 1', 'La Liga','Premiership','Eredivisie','Primeira Liga'))
+    data = load_data(app=1,league=leagues)
     data = data[data['league'] == leagues]
 
     data_dates = data['date'].unique()
