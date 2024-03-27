@@ -76,9 +76,11 @@ with st.sidebar:
         'Select a League',
         ('Premier League', 'La Liga', 'Ligue 1', 'Bundesliga', 'Serie A',
          'Eredivisie', 'Primeira Liga', 'Belgian Pro League',
-         'Brasileiro Série A', 'Primera División'))
+         'Brasileiro Série A', 'Primera División',
+         'Championship','Segunda División','Ligue 2','2. Bundesliga','Serie B'))
     select_player_data = select_player_data[select_player_data['Comp'] == leagues]
     data_teams = select_player_data['Squad'].unique()
+
 
     teams = st.selectbox(
         'Select a team',
