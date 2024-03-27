@@ -106,7 +106,7 @@ def load_data(app, league=None):
 
         elif league == 'Jupiter ProLeague':
             event_data = pd.read_parquet(
-                'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/MLS_match_events.parquet')
+                'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/BEL_match_events.parquet')
 
         elif league == 'Primeira Liga':
             event_data = pd.read_parquet(
