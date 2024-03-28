@@ -13,6 +13,7 @@ from utils.functions_file import load_data
 pd.set_option('display.max_columns', None)
 
 # Define the dictionary
+# Dictionario para homologar posiciones ya que hay jugadores que no tienen jugadores especificas
 player_positions = {
     'Centre-Back': ['Centre-Back', 'DF'],
     'Defensive Midfield': ['Defensive Midfield', 'midfield', 'MF'],
@@ -38,6 +39,7 @@ player_positions = {
 
 
 # Define a function to get positions based on a key
+# Funcion que toma la posicion del jugador a evaluar y retorna las posiciones homologas del dictionario
 def get_player_positions(position):
     """
   This function takes a player position as input and returns a list of associated options from the player_positions dictionary.
@@ -53,7 +55,7 @@ def get_player_positions(position):
     else:
         return []
 
-
+# Carga de datos y seleccion de valores unicos de campos claves
 data = load_data(app=2)
 select_player_data = data.copy()  # data to player selection sliders
 recommend_data = data.copy()
@@ -68,6 +70,7 @@ unique_minutes = recommend_data['Min_Playing_Time'].unique()
 unique_minutes = np.sort(unique_minutes, axis=0)
 max_minutes = recommend_data['Min_Playing_Time'].max()
 
+# Sidebar con selectboxes para seleccion de liga, equipo y jugador
 with st.sidebar:
     st.title('Select Player :soccer:')
     st.subheader('Big 5 Leagues')
@@ -95,30 +98,36 @@ with st.sidebar:
 
 ### Selectboxes to filter the base of players to analyze and recommend
 
-
+# Multiselect para filtrar ligas de los jugadores similares encontrados
 select_comp = st.multiselect(
     'Select a League',
     unique_tournament, key='s_comp',
     default='Premier League'
 )
-
+# Multiselect para filtrar edades de los jugadores similares encontrados
 start_age, end_age = st.select_slider(
     'Select a range of age',
     options=unique_age,
     value=(15, 40))
 
+# Multiselect para filtrar minutos de los jugadores similares encontrados
 start_min, end_min = st.select_slider(
     'Select a range of Minutes',
     options=unique_minutes,
     value=(1, max_minutes))
 
 ### ------------------------ ###
+### Pasos para generar el dataset que se va a usar en la generacion de jugadores similares
+
+# Metricas del jugadores seleccionado
 select_player = data[data['Player'] == players]
 attributes = load_data(app=2)
+
 selected_player_position = select_player['PlayerPos'].unique()[0]
 
 options = get_player_positions(selected_player_position)
 print(options)
+# Se filtran la base de jugadores a usar para buscar similares con base em los filtros
 attributes = attributes[
     (attributes['PlayerPos'].isin(options))
     & (attributes['Age'] <= end_age)
@@ -151,7 +160,7 @@ def get_player_index(x):
     # bck_atributos = bck_atributos.reset_index(drop=True)
     return bck_attributes[bck_attributes['Player'] == x].index.tolist()[0]
 
-
+# Funcion para obtener los jugadores similares
 def recommend_players(player, data_to_filter):
     # print('Here are 5 players similar to', player, ':' '\n')
     index = get_player_index(player)
@@ -176,5 +185,33 @@ rec_result = recommend_players(players, data_to_filter=load_data(app=2))
 # player_shot_map(player=players)
 # st.dataframe(unique_age)
 st.dataframe(rec_result)
+data_text = rec_result.to_string(index=False, header=True)
 
-# st.text(rec_result['Player'].unique())
+import google.generativeai as genai
+from markdown_pdf import MarkdownPdf,Section
+
+
+
+
+gem_api = 'AIzaSyAKKRcbonvFpJL5q6Il_50cHEWtoe60cxk'
+genai.configure(api_key=gem_api)
+model = genai.GenerativeModel('gemini-pro')
+order_txt = "Based on the next data, write a soccer scouting report for each player on it, do not use bullet list, write a paragraph, is an obligation use and mention their metrics available in the data:  " + data_text
+response = model.generate_content(order_txt)
+st.markdown(response.text)
+
+### Generacion de PDF
+pdf = MarkdownPdf(toc_level=1)
+leagues_txt  = ', '.join(select_comp)
+pdf.add_section(Section("# Technical Scout: " + str(players) + "\n"
+                        + "Leagues: " + str(leagues_txt) + " | " + "Between " + str(int(start_age)) + " and " + str(int(end_age)) + " | " + "At least " + str(int(start_min)) + " minutes" + "\n"
+                        + "\n" + response.text ,toc=False))
+pdf.save("AI Technical Scout Report.pdf")
+
+with open("AI Technical Scout Report.pdf", "rb") as file:
+    btn = st.download_button(
+            label="Download Report",
+            data=file,
+            file_name="AI_Technical_Report.pdf"
+            #mime="image/png"
+          )
