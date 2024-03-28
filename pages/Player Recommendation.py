@@ -196,7 +196,104 @@ from markdown_pdf import MarkdownPdf,Section
 gem_api = 'AIzaSyAKKRcbonvFpJL5q6Il_50cHEWtoe60cxk'
 genai.configure(api_key=gem_api)
 model = genai.GenerativeModel('gemini-pro')
-order_txt = "Based on the next data, write a soccer scouting report for each player on it, do not use bullet list, write a paragraph, is an obligation use and mention their metrics available in the data:  " + data_text
+#order_txt = "Based on the next data, write a soccer scouting report for each player on it, do not use bullet list, write a paragraph, is an obligation use and mention their metrics available in the data:  " + data_text
+
+
+text_string = """
+Interprete the next data as follow:
+'Squad' as Team,
+'Comp' as League,
+'Player' as Player,
+'Nation' as Player Nationality,
+'Age' as Player Age,
+'PlayerPos' as Player Position,
+'TklW_Tackles' as Tackles Won,
+'Int' as Interceptions,
+'Clr' as Clearences,
+'Sh_Blocks' as Shot Blocks,
+'Pass_Blocks' as Pass Blocks,
+'Tkl+Int' as Takles + Interceptions,
+'SCA90_SCA' as SCA per 90,
+'GCA90_GCA' as GCA per 90,
+'Recov' as Recoveries,
+'Won_Aerial_Duels' as Won Aerial Duels,
+'Won_percent_Aerial_Duels' as Won Aerial Duels percentage,
+'Cmp_Total' as Total Pass Completed,
+'Cmp_percent_Total' as Total Pass Completed percentage,
+'Cmp_Short' as Total Short Pass Completed,
+'Cmp_percent_Short' as Total Short Pass Completed percentage,
+'Cmp_Medium' as Total Medium Pass Completed,
+'Cmp_percent_Medium' as Total Medium Pass Completed,
+'Cmp_Long' as Total Long Pass Completed,
+'Cmp_percent_Long' as Total Long Pass Completed percentage,
+'Ast' as Assist,
+'xAG' as Expected Assisted Goal,
+'xA_Expected' as Expected Assists,
+'PPA' as Passes Into Penalty Area,
+'CrsPA' as Crosses Into Penalty Area,
+'PrgP' as Progressive Passes,
+'KP' as Key Passes,
+'Final_Third' as Passes Into Final Third,
+'Min_Playing_Time' as Playing Time Minutes,
+'Starts_Starts' as Starts,
+'Mn_per_Start_Starts' as Minutes Per Starts,
+'Compl_Starts' as Completed Matches Played,
+'Subs_Subs' as Substitute Appearances,
+'Mn_per_Sub_Subs' as Minutes Per Substitution,
+'Touches_Touches' as Touches,
+'Def Pen_Touches' as Touches in Defensive Penalty Area,
+'Def 3rd_Touches' as Touches in Defensive Third,
+'Mid 3rd_Touches' as Touches in Middle Third,
+'Att 3rd_Touches' as Touches in Attacking Third,
+'Att Pen_Touches' as Touches in Attacking Penalty Area,
+'Live_Touches' as Live Touches,
+'Att_Take_Ons' as Attacking Take Ons,
+'Succ_Take_Ons' as Successful Take Ons,
+'Succ_percent_Take_Ons' as Successful Take Ons percentage,
+'Tkld_Take_Ons' as Takled Take Ons,
+'Tkld_percent_Take_Ons' as Tackled Take Ons percentage,
+'Carries_Carries' as Carries,
+'TotDist_Carries' as Carries Total Distance,
+'PrgDist_Carries' as Progressive Carries Distance,
+'PrgC_Carries' as Progressive Carries,
+'Final_Third_Carries' as Final Third Carries,
+'CPA_Carries' as Carries Into Penalty Areas,
+'Mis_Carries' as Miscontrol Carries,
+'Dis_Carries' as Dispossessesd Carries,
+'Rec_Receiving' as Passes Received,
+'PrgR_Receiving' as Progressive Passes Received,
+'Gls_Standard' as Goals,
+'Sh_Standard' as Shots,
+'SoT_Standard' as Shots On Target,
+'SoT_percent_Standard' as Shot on Target percentage,
+'Sh_per_90_Standard' as Shots per 90,
+'SoT_per_90_Standard' as Shots On Target Per 90,
+'G_per_Sh_Standard' as Goals Per Shot,
+'G_per_SoT_Standard' as Goals Per Shot On Target,
+'Dist_Standard' as Shot Distance,
+'FK_Standard' as Free Kicks,
+'PK_Standard' as Penalty Kicks,
+'PKatt_Standard' as Penalty Kicks attempted,
+'xG_Expected' as Expected Goals,
+'npxG_Expected' as Non Penalty Expected Goals,
+'npxG_per_Sh_Expected' as Non Penalty Expected Goals per Shot,
+'G_minus_xG_Expected' as Goals minus Expected Goals,
+'np:G_minus_xG_Expected' as Non Penalty Goals minus Expected Goals,
+'Gls' as Goals,
+'G+A' as Goals plus Assists,
+'G_minus_PK' as Goals minus Penalty Kicks,
+'xAG_Expected' as Expected Assisted Goals,
+'npxG+xAG_Expected' as Non Penalty Goals plus Expected Assisted Goals,
+'Gls_Per_Minutes' as Goals Per Minutes,
+'Ast_Per_Minutes' as Assists Per Minutes,
+'G+A_Per_Minutes' as Goals plus Assists Per Minutes and
+Based on the next data, write a soccer scouting report for each player on it, do not use bullet list, write a paragraph, is an obligation use and mention their metrics available in the data: 
+"""
+order_txt = str(text_string) + data_text
+
+
+
+
 response = model.generate_content(order_txt)
 st.markdown(response.text)
 
