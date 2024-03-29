@@ -97,24 +97,25 @@ with st.sidebar:
         data_teams_players)
 
 ### Selectboxes to filter the base of players to analyze and recommend
+with st.popover("View Filters"):
 
-# Multiselect para filtrar ligas de los jugadores similares encontrados
-select_comp = st.multiselect(
-    'Select a League',
-    unique_tournament, key='s_comp',
-    default='Premier League'
-)
-# Multiselect para filtrar edades de los jugadores similares encontrados
-start_age, end_age = st.select_slider(
-    'Select a range of age',
-    options=unique_age,
-    value=(15, 40))
+    # Multiselect para filtrar ligas de los jugadores similares encontrados
+    select_comp = st.multiselect(
+        'Select a League',
+        unique_tournament, key='s_comp',
+        default='Premier League'
+    )
+    # Multiselect para filtrar edades de los jugadores similares encontrados
+    start_age, end_age = st.select_slider(
+        'Select a range of age',
+        options=unique_age,
+        value=(15, 40))
 
-# Multiselect para filtrar minutos de los jugadores similares encontrados
-start_min, end_min = st.select_slider(
-    'Select a range of Minutes',
-    options=unique_minutes,
-    value=(1, max_minutes))
+    # Multiselect para filtrar minutos de los jugadores similares encontrados
+    start_min, end_min = st.select_slider(
+        'Select a range of Minutes',
+        options=unique_minutes,
+        value=(1, max_minutes))
 
 ### ------------------------ ###
 ### Pasos para generar el dataset que se va a usar en la generacion de jugadores similares
