@@ -198,48 +198,47 @@ genai.configure(api_key=gem_api)
 model = genai.GenerativeModel('gemini-pro')
 #order_txt = "Based on the next data, write a soccer scouting report for each player on it, do not use bullet list, write a paragraph, is an obligation use and mention their metrics available in the data:  " + data_text
 
-
-text_string = """
-Interprete the next data as follow:
-'Squad' as Team,
-'Comp' as League,
-'Player' as Player,
-'Nation' as Player Nationality,
-'Age' as Player Age,
-'PlayerPos' as Player Position,
-'TklW_Tackles' as Tackles Won,
-'Int' as Interceptions,
-'Clr' as Clearences,
-'Sh_Blocks' as Shot Blocks,
-'Pass_Blocks' as Pass Blocks,
-'Tkl+Int' as Takles + Interceptions,
-'SCA90_SCA' as SCA per 90,
-'GCA90_GCA' as GCA per 90,
-'Recov' as Recoveries,
-'Won_Aerial_Duels' as Won Aerial Duels,
-'Won_percent_Aerial_Duels' as Won Aerial Duels percentage,
-'Cmp_Total' as Total Pass Completed,
-'Cmp_percent_Total' as Total Pass Completed percentage,
-'Cmp_Short' as Total Short Pass Completed,
-'Cmp_percent_Short' as Total Short Pass Completed percentage,
-'Cmp_Medium' as Total Medium Pass Completed,
-'Cmp_percent_Medium' as Total Medium Pass Completed,
-'Cmp_Long' as Total Long Pass Completed,
-'Cmp_percent_Long' as Total Long Pass Completed percentage,
+text_string = f"This data with the next columns meaning: "
+text_string += f"""
+'Squad' as 'Team',
+'Comp' as 'League',
+'Player' as 'Player',
+'Nation' as 'Player Nationality',
+'Age' as 'Player Age',
+'PlayerPos' as 'Player Position',
+'TklW_Tackles' as 'Tackles Won',
+'Int' as 'Interceptions',
+'Clr' as 'Clearences',
+'Sh_Blocks' as 'Shot Blocks',
+'Pass_Blocks' as 'Pass Blocks',
+'Tkl+Int' as 'Tackles plus Interceptions',
+'SCA90_SCA' as 'SCA per 90',
+'GCA90_GCA' as 'GCA per 90',
+'Recov' as 'Recoveries',
+'Won_Aerial_Duels' as 'Won Aerial Duels',
+'Won_percent_Aerial_Duels' as 'Won Aerial Duels percentage',
+'Cmp_Total' as 'Total Pass Completed',
+'Cmp_percent_Total' as 'Total Pass Completed percentage',
+'Cmp_Short' as 'Total Short Pass Completed',
+'Cmp_percent_Short' as 'Total Short Pass Completed percentage',
+'Cmp_Medium' as 'Total Medium Pass Completed',
+'Cmp_percent_Medium' as 'Total Medium Pass Completed',
+'Cmp_Long' as 'Total Long Pass Completed',
+'Cmp_percent_Long' as 'Total Long Pass Completed percentage',
 'Ast' as Assist,
-'xAG' as Expected Assisted Goal,
-'xA_Expected' as Expected Assists,
-'PPA' as Passes Into Penalty Area,
-'CrsPA' as Crosses Into Penalty Area,
-'PrgP' as Progressive Passes,
-'KP' as Key Passes,
-'Final_Third' as Passes Into Final Third,
-'Min_Playing_Time' as Playing Time Minutes,
-'Starts_Starts' as Starts,
-'Mn_per_Start_Starts' as Minutes Per Starts,
-'Compl_Starts' as Completed Matches Played,
-'Subs_Subs' as Substitute Appearances,
-'Mn_per_Sub_Subs' as Minutes Per Substitution,
+'xAG' as 'Expected Assisted Goal',
+'xA_Expected' as 'Expected Assists',
+'PPA' as 'Passes Into Penalty Area',
+'CrsPA' as 'Crosses Into Penalty Area',
+'PrgP' as 'Progressive Passes',
+'KP' as 'Key Passes',
+'Final_Third' as 'Passes Into Final Third',
+'Min_Playing_Time' as 'Playing Time Minutes',
+'Starts_Starts' as 'Starts',
+'Mn_per_Start_Starts' as 'Minutes Per Starts',
+'Compl_Starts' as 'Completed Matches Played',
+'Subs_Subs' as 'Substitute Appearances',
+'Mn_per_Sub_Subs' as 'Minutes Per Substitution',
 'Touches_Touches' as Touches,
 'Def Pen_Touches' as Touches in Defensive Penalty Area,
 'Def 3rd_Touches' as Touches in Defensive Third,
@@ -266,8 +265,8 @@ Interprete the next data as follow:
 'Sh_Standard' as Shots,
 'SoT_Standard' as Shots On Target,
 'SoT_percent_Standard' as Shot on Target percentage,
-'Sh_per_90_Standard' as Shots per 90,
-'SoT_per_90_Standard' as Shots On Target Per 90,
+'Sh_per_90_Standard' as 'Shots per 90',
+'SoT_per_90_Standard' as 'Shots On Target Per 90',
 'G_per_Sh_Standard' as Goals Per Shot,
 'G_per_SoT_Standard' as Goals Per Shot On Target,
 'Dist_Standard' as Shot Distance,
@@ -286,10 +285,19 @@ Interprete the next data as follow:
 'npxG+xAG_Expected' as Non Penalty Goals plus Expected Assisted Goals,
 'Gls_Per_Minutes' as Goals Per Minutes,
 'Ast_Per_Minutes' as Assists Per Minutes,
-'G+A_Per_Minutes' as Goals plus Assists Per Minutes and
-Based on the next data, write a soccer scouting report for each player on it, do not use bullet list, write a paragraph, is an obligation use and mention their metrics available in the data: 
+'G+A_Per_Minutes' as Goals plus Assists Per Minutes,
+I'm scouting those players in the data, please understand the columns names and column meaning mentioned before and based on player position select the key column metrics and write a scout report for every player in the column 'Player', with the next format:
+Player Name, 
+Age, 
+Nationality, 
+Team, 
+League, 
+Key Metrics 
+and paragraph with the report based on key metrics, is mandatory include all the players in the data: {rec_result} 
 """
-order_txt = str(text_string) + data_text
+#write a simple soccer player scout report for each player on it based on their key metrics in the dataframe, please use the player position in the column PlayerPos to determine which metrics are need it in the report, metrics must be included always in a paragraph style: {rec_result}
+# by player position what are the key metrics based on columns and with that metrics write a player scout report for every player in the data: {rec_result}
+order_txt = str(text_string) #+ data_text
 
 
 
