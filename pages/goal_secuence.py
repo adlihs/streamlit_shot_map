@@ -372,7 +372,7 @@ def viz_previous_events(soccer_data=None, game=None, team=None, minute=None):
 
 
 with st.sidebar:
-    st.title('Pass Flow Generator :soccer:')
+    st.title('Goal Secuence Generator :soccer:')
     st.subheader('Big 5 Leagues')
     st.write = 'Sidebar'
     leagues = st.selectbox('Select a League',
