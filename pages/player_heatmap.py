@@ -89,5 +89,7 @@ with st.sidebar:
         data_players)
 
     color = st.color_picker('Pick A Color', '#0D2C54')
+    viz = st.button("Apply", type="primary")
 
-player_heatmap(soccer_data=data, player_name=players, custom_color=color)
+if viz:
+    player_heatmap(soccer_data=data, player_name=players, custom_color=color)

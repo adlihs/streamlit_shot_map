@@ -127,7 +127,7 @@ attributes = load_data(app=2)
 selected_player_position = select_player['PlayerPos'].unique()[0]
 
 options = get_player_positions(selected_player_position)
-print(options)
+
 # Se filtran la base de jugadores a usar para buscar similares con base em los filtros
 attributes = attributes[
     (attributes['PlayerPos'].isin(options))
@@ -300,24 +300,24 @@ and paragraph with the report based on key metrics, is mandatory include all the
 # by player position what are the key metrics based on columns and with that metrics write a player scout report for every player in the data: {rec_result}
 order_txt = str(text_string) #+ data_text
 
+viz = st.button("View AI Scout Report", type="primary")
 
+if viz:
+    response = model.generate_content(order_txt)
+    st.markdown(response.text)
 
+    ### Generacion de PDF
+    pdf = MarkdownPdf(toc_level=1)
+    leagues_txt  = ', '.join(select_comp)
+    pdf.add_section(Section("# Technical Scout: " + str(players) + "\n"
+                            + "Leagues: " + str(leagues_txt) + " | " + "Between " + str(int(start_age)) + " and " + str(int(end_age)) + " | " + "At least " + str(int(start_min)) + " minutes" + "\n"
+                            + "\n" + response.text ,toc=False))
+    pdf.save("AI Technical Scout Report.pdf")
 
-response = model.generate_content(order_txt)
-st.markdown(response.text)
-
-### Generacion de PDF
-pdf = MarkdownPdf(toc_level=1)
-leagues_txt  = ', '.join(select_comp)
-pdf.add_section(Section("# Technical Scout: " + str(players) + "\n"
-                        + "Leagues: " + str(leagues_txt) + " | " + "Between " + str(int(start_age)) + " and " + str(int(end_age)) + " | " + "At least " + str(int(start_min)) + " minutes" + "\n"
-                        + "\n" + response.text ,toc=False))
-pdf.save("AI Technical Scout Report.pdf")
-
-with open("AI Technical Scout Report.pdf", "rb") as file:
-    btn = st.download_button(
-            label="Download Report",
-            data=file,
-            file_name="AI_Technical_Report.pdf"
-            #mime="image/png"
-          )
+    with open("AI Technical Scout Report.pdf", "rb") as file:
+        btn = st.download_button(
+                label="Download Report",
+                data=file,
+                file_name="AI_Technical_Report.pdf"
+                #mime="image/png"
+              )
