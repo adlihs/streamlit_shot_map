@@ -344,15 +344,19 @@ def viz_previous_events(soccer_data=None, game=None, team=None, minute=None):
 
     narrative_df = soccer_data[['team', 'player', 'minute', 'second', 'type', 'x', 'y']].rename(
         columns={'type': 'action'})
+    narra_df =narrative_df.copy()
     narrative_df = narrative_df.reset_index()
 
     text = narrative_df.to_string(index=False, header=True)
-    print(text)
+    #print(text)
 
     order_txt = "I'm going to give you a Index, team, player name, minute, second and action for a soccer game goal, to help you understand the position of the action the pitch widht is 100 and the height is 100, so analize the position of the action, do not include coordinates, and please re-create briefly the play using the data, use only the information provided, put between () the Index, include all the actions for the teams in order based on the Index, and i want a bulleted list:" + text
     response = model.generate_content(order_txt)
 
-    order_txt2 = "The next data is for a secuence of action before a goal is scored, please analyze it and write a brief and simple description of the play as a soccer commentator, use only the information provided in the order provided:  " + text
+    #order_txt2 = "The next data is for a secuence of action before a goal is scored, please analyze it and write a brief and simple description of the play as a soccer commentator, use only the information provided in the order provided:  " + text
+    #response2 = model.generate_content(order_txt2)
+
+    order_txt2 = f"The next dataframe {narra_df} with the next columns {narra_df.columns}, this data is for actions previous a goal in a soccer game, please use it to write a description of all the play previous a goal is scored as football commentator using only the data in the dataframe provided."
     response2 = model.generate_content(order_txt2)
     # print(response.text)
 
