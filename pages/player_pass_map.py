@@ -16,11 +16,13 @@ def player_pass_maps(data, player_name, type):
     if type == 'All Games':
         player_pass_data = data[(data['player'] == player_name) &
                                 (data['type'] == 'Pass')]
+        title = 'All Games'
 
     else:
         player_pass_data = data[(data['player'] == player_name) &
                                 (data['type'] == 'Pass') &
                                 (data['game'] == games)]
+        title = games
 
     fm_rubik = FontManager('https://raw.githubusercontent.com/google/fonts/main/ofl/'
                            'gugi/Gugi-Regular.ttf')
@@ -101,7 +103,7 @@ def player_pass_maps(data, player_name, type):
                              fontproperties=fm_rubik.prop, color=pitch.line_color)
 
     ax.text(x=0.1, y=104.5,
-            s=str(team_n) + " | " + str(league_n) + " | " + str(games),
+            s=str(team_n) + " | " + str(league_n) + " | " + str(title),
             size=15,
             fontproperties=fm_rubik.prop,
             color=pitch.line_color)
