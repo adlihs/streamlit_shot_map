@@ -1,7 +1,7 @@
 import pandas as pd
 # import os
 # import numpy as np
-# from PIL import Image
+import PIL.Image
 # import matplotlib.image as mpimg
 
 from mplsoccer import (Pitch, FontManager)
@@ -58,6 +58,15 @@ def player_heatmap(soccer_data, player_name, custom_color):
                                    fontproperties=fm_rubik.prop,
                                    color=custom_color)
     st.pyplot(plt)
+    fn = 'player_heatmap.png'
+    plt.savefig(fn)
+    with open(fn, "rb") as img:
+        btn = st.download_button(
+            label="Download image",
+            data=img,
+            file_name=fn,
+            mime="image/png"
+        )
 
 
 

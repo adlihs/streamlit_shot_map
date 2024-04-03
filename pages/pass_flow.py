@@ -1,7 +1,7 @@
 import pandas as pd
 # import os
 # import numpy as np
-# from PIL import Image
+import PIL.Image
 # import matplotlib.image as mpimg
 
 from mplsoccer import (Pitch, FontManager)
@@ -103,7 +103,17 @@ def game_flow_pass_map(soccer_data, game, game_date):
                                     fontproperties=fm_rubik.prop, color=pitch.line_color)
 
     pitch.draw(axs[1])
+
+    fn = 'pass_flow.png'
+    plt.savefig(fn)
     st.pyplot(plt)
+    with open(fn, "rb") as img:
+        btn = st.download_button(
+            label="Download image",
+            data=img,
+            file_name=fn,
+            mime="image/png"
+        )
 
 
 

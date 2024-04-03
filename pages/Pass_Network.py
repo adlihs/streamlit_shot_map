@@ -1,7 +1,7 @@
 import pandas as pd
 # import os
 import numpy as np
-# from PIL import Image
+import PIL.Image
 # import matplotlib.image as mpimg
 
 from mplsoccer import (Pitch, FontManager)
@@ -15,6 +15,10 @@ from utils.functions_file import load_data
 
 pd.set_option('display.max_columns', None)
 
+import google.generativeai as genai
+gem_api = 'AIzaSyAKKRcbonvFpJL5q6Il_50cHEWtoe60cxk'
+genai.configure(api_key=gem_api)
+model = genai.GenerativeModel('gemini-pro-vision')
 
 def process_data(data, date, game, team_index):
     event_data = data.copy()
@@ -60,7 +64,7 @@ def process_data(data, date, game, team_index):
     centralisation_index = nominator / denominator
 
     mapeo = {
-        'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ø': 'o', 'ñ': 'n', 'Ñ': 'N', 'ë': 'e',
+        'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ø': 'o', 'ñ': 'n', 'Ñ':'N', 'ë':'e','ã':'a','ï':'i',
         'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ø': 'O'
     }
 
@@ -85,7 +89,7 @@ def process_data(data, date, game, team_index):
 
     # adjust the size of a circle so that the player who made more passes
     scatter_df['marker_size'] = (scatter_df['no'] / scatter_df['no'].max() * 1500)
-    scatter_df = scatter_df[scatter_df['no'] >= 2]
+    # scatter_df = scatter_df[scatter_df['no'] >= 2]
     scatter_df['sub'] = np.where(scatter_df['player'].isin(sub_players['player']), 1, 0)
 
     ### Calculate line features
@@ -103,7 +107,7 @@ def process_data(data, date, game, team_index):
 def network_pass_viz(team_index):
     scatter_df, lines_df, team, centralization = process_data(data=data, date=Gdates, game=games, team_index=team_index)
     # st.dataframe(lines_df)
-    #st.dataframe(scatter_df)
+    # st.dataframe(scatter_df)
     # plot once again pitch and vertices
     fm_rubik = FontManager('https://raw.githubusercontent.com/google/fonts/main/ofl/'
                            'gugi/Gugi-Regular.ttf')
@@ -115,14 +119,23 @@ def network_pass_viz(team_index):
     fig.set_facecolor("#eee9e5")
 
     for index, row in scatter_df.iterrows():
-        print(row['sub'])
-        pitch.scatter(scatter_df.x, scatter_df.y,
-                      s=scatter_df.marker_size,
-                      color='#eee9e5',
-                      edgecolors='#A5A2A1',
-                      linewidth=4,
-                      alpha=1,
-                      ax=ax, zorder=3)
+        if row['sub'] == 1:
+            pitch.scatter(row.x, row.y,
+                          s=row.marker_size,
+                          color='#eee9e5',
+                          edgecolors='#F1797F',#F1797F A5A2A1
+                          linewidth=4,
+                          alpha=1,
+                          ax=ax, zorder=3)
+        else:
+            pitch.scatter(row.x, row.y,
+                          s=row.marker_size,
+                          color='#eee9e5',
+                          edgecolors='#A5A2A1',  # F1797F A5A2A1
+                          linewidth=4,
+                          alpha=1,
+                          ax=ax, zorder=3)
+
 
     for i, row in scatter_df.iterrows():
         pitch.annotate(row.player, xy=(row.x, row.y),
@@ -147,7 +160,7 @@ def network_pass_viz(team_index):
         line_width = (num_passes / lines_df['pass_count'].max() * 10)
         # plot lines on the pitch
         pitch.lines(player1_x, player1_y, player2_x, player2_y,
-                    alpha=0.5, lw=line_width, zorder=2, color="#A5A2A1", ax=ax)
+                    alpha=0.5, lw=line_width, zorder=2, color="#A5A2A1", ax=ax) #A5A2A1
 
     # fig.suptitle("England Passing Network against Sweden", fontsize = 30)
     txt_title_team = ax.text(x=0, y=109, s=str(team) + ' Pass Network',
@@ -161,6 +174,9 @@ def network_pass_viz(team_index):
                                 size=15,
                                 fontproperties=fm_rubik.prop, color=pitch.line_color)
     # plt.show()
+    fn = 'network_'+str(team_index)+ '_scatter.png'
+    plt.savefig(fn)
+
     st.pyplot(plt)
 
 
@@ -194,4 +210,20 @@ with st.sidebar:
 
 
 network_pass_viz(team_index=1)
+fn = 'network_'+str(1)+ '_scatter.png'
+with open(fn, "rb") as img:
+    btn = st.download_button(
+        label="Download image",
+        data=img,
+        file_name=fn,
+        mime="image/png"
+    )
 network_pass_viz(team_index=2)
+fn = 'network_'+str(2)+ '_scatter.png'
+with open(fn, "rb") as img:
+    btn = st.download_button(
+        label="Download image",
+        data=img,
+        file_name=fn,
+        mime="image/png"
+    )

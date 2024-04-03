@@ -3,7 +3,7 @@ import pandas as pd
 import google.generativeai as genai
 from mplsoccer import (Pitch, FontManager)
 import matplotlib.pyplot as plt
-
+import PIL.Image
 from matplotlib.colors import LinearSegmentedColormap
 import streamlit as st
 
@@ -365,8 +365,16 @@ def viz_previous_events(soccer_data=None, game=None, team=None, minute=None):
     #        size=10,
     #        fontproperties=fm_rubik.prop,
     #        color=pitch.line_color)
-
+    fn = 'goal_secuence.png'
+    plt.savefig(fn)
     st.pyplot(plt)
+    with open(fn, "rb") as img:
+        btn = st.download_button(
+            label="Download image",
+            data=img,
+            file_name=fn,
+            mime="image/png"
+        )
     st.markdown('***AI GOAL DESCRIPTION***')
     st.markdown(response.text)
     st.markdown('***AI GOAL COMMENTATOR***')

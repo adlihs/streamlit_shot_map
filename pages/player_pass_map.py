@@ -1,5 +1,5 @@
 import pandas as pd
-
+import PIL.Image
 from mplsoccer import (Pitch, FontManager)
 import matplotlib.pyplot as plt
 
@@ -107,7 +107,17 @@ def player_pass_maps(data, player_name, type):
             size=15,
             fontproperties=fm_rubik.prop,
             color=pitch.line_color)
+
+    fn = 'player_pass_map.png'
+    plt.savefig(fn)
     st.pyplot(plt)
+    with open(fn, "rb") as img:
+        btn = st.download_button(
+            label="Download image",
+            data=img,
+            file_name=fn,
+            mime="image/png"
+        )
 
 
 

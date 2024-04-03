@@ -201,8 +201,16 @@ def player_shot_map(player=None):
 
     xG_label = ax.text(4.7, 50.7, 'xG', fontsize=12, ha='center', va='center', color=pitch.line_color,
                        fontproperties=fm_rubik.prop)
-
+    fn = 'player_shot_map.png'
+    plt.savefig(fn)
     st.pyplot(plt)
+    with open(fn, "rb") as img:
+        btn = st.download_button(
+            label="Download image",
+            data=img,
+            file_name=fn,
+            mime="image/png"
+        )
 
 
 data = load_data(app=3)
