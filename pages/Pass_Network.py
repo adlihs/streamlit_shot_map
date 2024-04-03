@@ -65,7 +65,7 @@ def process_data(data, date, game, team_index):
 
     mapeo = {
         'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ø': 'o', 'ñ': 'n', 'Ñ':'N', 'ë':'e','ã':'a','ï':'i',
-        'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ø': 'O'
+        'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ø': 'O', 'ü':'u','ğ':'g'
     }
 
     # Reemplazar las letras con tilde por las mismas letras sin tilde
