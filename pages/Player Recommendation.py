@@ -95,6 +95,7 @@ with st.sidebar:
     players = st.selectbox(
         'Select a Player',
         data_teams_players)
+    st.page_link("main.py", label="Main Menu", icon="↩️")
 
 ### Selectboxes to filter the base of players to analyze and recommend
 with st.popover("View Filters"):

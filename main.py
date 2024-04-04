@@ -27,3 +27,14 @@ st.text(intro_text)
 st.markdown(f"[LinkedIn](https://www.linkedin.com/in/edmundneil)")
 st.markdown(f"[Tableau Public Profile](https://public.tableau.com/app/profile/edmondneil/vizzes)")
 
+
+with st.sidebar:
+    st.page_link("main.py", label="Home", icon="🏠")
+    st.page_link("pages/goal_secuence.py", label="Goal Secuence", icon="⚽️")
+    st.page_link("pages/pass_flow.py", label="Pass Flow", icon="🔄")
+    st.page_link("pages/Pass_Network.py", label="Pass Network", icon="🕸️")
+    st.page_link("pages/Player Recommendation.py", label="Player Recommendation", icon="🚀")
+    st.page_link("pages/player_heatmap.py", label="Player Heatmap", icon="⚡")
+    st.page_link("pages/player_pass_map.py", label="Player Pass Map", icon="➡️")
+    st.page_link("pages/shot_map.py", label="Player Shot Map", icon="🎯")
+

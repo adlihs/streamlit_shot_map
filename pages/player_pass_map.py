@@ -159,6 +159,7 @@ with st.sidebar:
                         options=["All Games", "By Game"])
 
     viz = st.button("Apply", type="primary")
+    st.page_link("main.py", label="Main Menu", icon="↩️")
 
 if viz:
     player_pass_maps(data=data, player_name=selected_player, type=viz_type)

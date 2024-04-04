@@ -141,5 +141,6 @@ with st.sidebar:
     games = st.selectbox(
         'Select a Game',
         data_games)
+    st.page_link("main.py", label="Main Menu", icon="↩️")
 
 game_flow_pass_map(soccer_data=data, game_date=Gdates, game=games)

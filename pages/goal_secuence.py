@@ -383,6 +383,7 @@ def viz_previous_events(soccer_data=None, game=None, team=None, minute=None):
 
 
 
+
 with st.sidebar:
     st.title('Goal Secuence Generator :soccer:')
     st.subheader('Big 5 Leagues')
@@ -416,6 +417,7 @@ with st.sidebar:
         data_minutes)
 
     viz = st.button("Apply", type="primary")
+    st.page_link("main.py", label="Main Menu", icon="↩️")
 
 base_data = base_data[(base_data['league'] == leagues) &
                       (base_data['game'] == games)]

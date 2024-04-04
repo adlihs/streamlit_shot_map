@@ -234,5 +234,6 @@ with st.sidebar:
     players = st.selectbox(
         'Select a Player',
         data_teams_players)
+    st.page_link("main.py", label="Main Menu", icon="↩️")
 
 player_shot_map(player=players)

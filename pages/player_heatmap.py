@@ -99,6 +99,7 @@ with st.sidebar:
 
     color = st.color_picker('Pick A Color', '#0D2C54')
     viz = st.button("Apply", type="primary")
+    st.page_link("main.py", label="Main Menu", icon="↩️")
 
 if viz:
     player_heatmap(soccer_data=data, player_name=players, custom_color=color)
