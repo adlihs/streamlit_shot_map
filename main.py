@@ -27,6 +27,7 @@ st.text(intro_text)
 st.markdown(f"[LinkedIn](https://www.linkedin.com/in/edmundneil)")
 st.markdown(f"[Tableau Public Profile](https://public.tableau.com/app/profile/edmondneil/vizzes)")
 
+#st.image('dataflow.png', caption='')
 
 with st.sidebar:
     st.page_link("main.py", label="Home", icon="🏠")

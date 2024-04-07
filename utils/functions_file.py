@@ -92,6 +92,14 @@ def load_data(app, league=None):
             event_data = pd.read_parquet(
                 'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ESP_match_events.parquet')
 
+        elif league == 'UCL':
+            event_data = pd.read_parquet(
+                'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/UCL_match_events.parquet')
+
+        elif league == 'EUL':
+            event_data = pd.read_parquet(
+                'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/EUL_match_events.parquet')
+
         elif league == 'Premiership':
             event_data = pd.read_parquet(
                 'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/SCO_match_events.parquet')
@@ -99,6 +107,14 @@ def load_data(app, league=None):
         elif league == 'Eredivisie':
             event_data = pd.read_parquet(
                 'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/NED_match_events.parquet')
+
+        elif league == 'Premier League (RUS)':
+            event_data = pd.read_parquet(
+                'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/RUS_match_events.parquet')
+
+        elif league == 'Championship (ENG)':
+            event_data = pd.read_parquet(
+                'https://github.com/adlihs/streamlit_shot_map/releases/download/soccer/ENG2_match_events.parquet')
 
         elif league == 'MLS':
             event_data = pd.read_parquet(
@@ -119,8 +135,8 @@ def load_data(app, league=None):
         event_data = event_data[event_data['player'].notna()]
 
         mapeo = {
-            'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ø': 'o',
-            'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ø': 'O'
+            'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ø': 'o', 'ñ':'n', 'Ñ':'N', 'ë':'e',
+            'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U', 'Ø': 'O','ã':'a','ü':'u'
         }
 
         # Reemplazar las letras con tilde por las mismas letras sin tilde
