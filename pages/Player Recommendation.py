@@ -191,11 +191,20 @@ data_text = rec_result.to_string(index=False, header=True)
 
 import google.generativeai as genai
 from markdown_pdf import MarkdownPdf,Section
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Access variables
+gem_api = os.getenv('gem_api')
 
 
 
 
-gem_api = 'AIzaSyAKKRcbonvFpJL5q6Il_50cHEWtoe60cxk'
+
+#gem_api = 'AIzaSyAKKRcbonvFpJL5q6Il_50cHEWtoe60cxk'
 genai.configure(api_key=gem_api)
 model = genai.GenerativeModel('gemini-pro')
 #order_txt = "Based on the next data, write a soccer scouting report for each player on it, do not use bullet list, write a paragraph, is an obligation use and mention their metrics available in the data:  " + data_text
