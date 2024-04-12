@@ -199,8 +199,7 @@ import os
 load_dotenv(dotenv_path='.env')
 
 # Access variables
-gem_api = os.environ.get('gem_api')
-
+gem_api = os.environ.get('gem_api') #env
 
 
 
