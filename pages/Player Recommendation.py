@@ -201,7 +201,7 @@ load_dotenv(dotenv_path='.env')
 # Access variables
 os.environ["gem_api"] = st.secrets["gem_api"]
 gem_api = os.environ.get('gem_api') #env
-print(gem_api)
+
 
 
 
@@ -307,7 +307,7 @@ Nationality,
 Team, 
 League, 
 Key Metrics 
-and paragraph with the report based on key metrics, is mandatory include all the players in the data: {rec_result} 
+and in paragraph style report based on key metrics, is mandatory include all the players in the data: {rec_result} 
 """
 #write a simple soccer player scout report for each player on it based on their key metrics in the dataframe, please use the player position in the column PlayerPos to determine which metrics are need it in the report, metrics must be included always in a paragraph style: {rec_result}
 # by player position what are the key metrics based on columns and with that metrics write a player scout report for every player in the data: {rec_result}
