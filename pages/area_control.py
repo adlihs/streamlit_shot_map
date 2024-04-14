@@ -15,7 +15,6 @@ from highlight_text import HighlightText, ax_text, fig_text
 
 # from functions_file import load_data, load_data_from_url
 
-pd.set_option('display.max_columns', None)
 
 def area_control_viz(soccer_data,game,game_date):
     event_data = soccer_data[soccer_data['game'] == game]
@@ -138,14 +137,6 @@ def area_control_viz(soccer_data,game,game_date):
         )
 
 
-
-
-
-
-
-
-# st.dataframe(data)
-
 with st.sidebar:
     st.title('Area Control Generator :soccer:')
     st.subheader('Big 5 Leagues')
@@ -172,7 +163,6 @@ with st.sidebar:
     viz = st.button("Apply", type="primary")
     st.page_link("main.py", label="Main Menu", icon="↩️")
 
-#game_flow_pass_map(soccer_data=data, game_date=Gdates, game=games)
 
 if viz:
     area_control_viz(soccer_data=data, game_date=Gdates, game=games)
