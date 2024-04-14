@@ -31,6 +31,7 @@ st.markdown(f"[Tableau Public Profile](https://public.tableau.com/app/profile/ed
 
 with st.sidebar:
     st.page_link("main.py", label="Home", icon="🏠")
+    st.page_link("pages/area_control.py", label="Area Control", icon="⚽️")
     st.page_link("pages/goal_secuence.py", label="Goal Secuence", icon="⚽️")
     st.page_link("pages/pass_flow.py", label="Pass Flow", icon="🔄")
     st.page_link("pages/Pass_Network.py", label="Pass Network", icon="🕸️")

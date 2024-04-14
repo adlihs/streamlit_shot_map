@@ -301,7 +301,7 @@ text_string += f"""
 'Ast_Per_Minutes' as Assists Per Minutes,
 'G+A_Per_Minutes' as Goals plus Assists Per Minutes,
 I'm scouting those players in the data, please understand the columns names and column meaning mentioned before and based on player position select the key column metrics and write a scout report for every player in the column 'Player', with the next format:
-Player Name, 
+Player Name,
 Age, 
 Nationality, 
 Team, 
@@ -312,7 +312,6 @@ and in paragraph style report based on key metrics, is mandatory include all the
 #write a simple soccer player scout report for each player on it based on their key metrics in the dataframe, please use the player position in the column PlayerPos to determine which metrics are need it in the report, metrics must be included always in a paragraph style: {rec_result}
 # by player position what are the key metrics based on columns and with that metrics write a player scout report for every player in the data: {rec_result}
 order_txt = str(text_string) #+ data_text
-
 viz = st.button("View AI Scout Report", type="primary")
 
 if viz:
