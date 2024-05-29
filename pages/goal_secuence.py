@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 import PIL.Image
 from matplotlib.colors import LinearSegmentedColormap
 import streamlit as st
-
+import os
 from utils.functions_file import load_data
-
+from dotenv import load_dotenv
 
 def goals_previous_actions(actions_data, team):
     pass_df = actions_data[(actions_data['league'] == leagues) &
@@ -37,7 +37,17 @@ def goals_previous_actions(actions_data, team):
 
 
 def viz_previous_events(soccer_data=None, game=None, team=None, minute=None):
-    gem_api = 'AIzaSyAKKRcbonvFpJL5q6Il_50cHEWtoe60cxk'
+    # Load environment variables from .env file
+
+    load_dotenv(dotenv_path='.env')
+
+    # Access variables
+    os.environ["gem_api"] = st.secrets["gem_api"]
+    gem_api = os.environ.get('gem_api')  # env
+
+
+
+
     genai.configure(api_key=gem_api)
     model = genai.GenerativeModel('gemini-pro')
 
