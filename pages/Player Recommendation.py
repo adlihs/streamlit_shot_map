@@ -55,6 +55,7 @@ def get_player_positions(position):
     else:
         return []
 
+
 # Carga de datos y seleccion de valores unicos de campos claves
 data = load_data(app=2)
 select_player_data = data.copy()  # data to player selection sliders
@@ -80,10 +81,9 @@ with st.sidebar:
         ('Premier League', 'La Liga', 'Ligue 1', 'Bundesliga', 'Serie A',
          'Eredivisie', 'Primeira Liga', 'Belgian Pro League',
          'Brasileiro Série A', 'Primera División',
-         'Championship','Segunda División','Ligue 2','2. Bundesliga','Serie B'))
+         'Championship', 'Segunda División', 'Ligue 2', '2. Bundesliga', 'Serie B'))
     select_player_data = select_player_data[select_player_data['Comp'] == leagues]
     data_teams = select_player_data['Squad'].unique()
-
 
     teams = st.selectbox(
         'Select a team',
@@ -99,7 +99,6 @@ with st.sidebar:
 
 ### Selectboxes to filter the base of players to analyze and recommend
 with st.popover("View Filters"):
-
     # Multiselect para filtrar ligas de los jugadores similares encontrados
     select_comp = st.multiselect(
         'Select a League',
@@ -162,6 +161,7 @@ def get_player_index(x):
     # bck_atributos = bck_atributos.reset_index(drop=True)
     return bck_attributes[bck_attributes['Player'] == x].index.tolist()[0]
 
+
 # Funcion para obtener los jugadores similares
 def recommend_players(player, data_to_filter):
     # print('Here are 5 players similar to', player, ':' '\n')
@@ -186,11 +186,16 @@ rec_result = recommend_players(players, data_to_filter=load_data(app=2))
 
 # player_shot_map(player=players)
 # st.dataframe(unique_age)
+
 st.dataframe(rec_result)
+
+
+# st.text()
+
 data_text = rec_result.to_string(index=False, header=True)
 
 import google.generativeai as genai
-from markdown_pdf import MarkdownPdf,Section
+from markdown_pdf import MarkdownPdf, Section
 from dotenv import load_dotenv
 import os
 
@@ -200,20 +205,15 @@ load_dotenv(dotenv_path='.env')
 
 # Access variables
 os.environ["gem_api"] = st.secrets["gem_api"]
-gem_api = os.environ.get('gem_api') #env
+gem_api = os.environ.get('gem_api')  # env
 
-
-
-
-
-
-#gem_api = 'AIzaSyAKKRcbonvFpJL5q6Il_50cHEWtoe60cxk'
+# gem_api = 'AIzaSyAKKRcbonvFpJL5q6Il_50cHEWtoe60cxk'
 genai.configure(api_key=gem_api)
-model = genai.GenerativeModel('gemini-pro')
-#order_txt = "Based on the next data, write a soccer scouting report for each player on it, do not use bullet list, write a paragraph, is an obligation use and mention their metrics available in the data:  " + data_text
+model = genai.GenerativeModel('gemini-1.5-flash')
+# order_txt = "Based on the next data, write a soccer scouting report for each player on it, do not use bullet list, write a paragraph, is an obligation use and mention their metrics available in the data:  " + data_text
 
-text_string = f"This data with the next columns meaning: "
-text_string += f"""
+text_string = f"""
+Act as professional soccer scout, use the next data {rec_result.to_markdown}, this data has the next columns: {rec_result.columns.tolist()}, change the original columns names as follow:
 'Squad' as 'Team',
 'Comp' as 'League',
 'Player' as 'Player',
@@ -300,18 +300,24 @@ text_string += f"""
 'Gls_Per_Minutes' as Goals Per Minutes,
 'Ast_Per_Minutes' as Assists Per Minutes,
 'G+A_Per_Minutes' as Goals plus Assists Per Minutes,
-I'm scouting those players in the data, please understand the columns names and column meaning mentioned before and based on player position select the key column metrics and write a scout report for every player in the column 'Player', with the next format:
-Player Name,
-Age, 
-Nationality, 
-Team, 
-League, 
-Key Metrics 
-and in paragraph style report based on key metrics, is mandatory include all the players in the data: {rec_result} 
 """
-#write a simple soccer player scout report for each player on it based on their key metrics in the dataframe, please use the player position in the column PlayerPos to determine which metrics are need it in the report, metrics must be included always in a paragraph style: {rec_result}
+text_string += f"""
+the data is data for players we are looking to hire, please write a benchmarking report with all players  using the most important metrics for attack, defense and posession, comparing metrics between players, always include the metrics value. The report will have this structure:
+
+Player Name | Age | Team | Player Position | Nationality
+Top 10 metrics for each category: attack, defense, posession
+In which metrics the player is better than the others
+player analysis
+Final recommendation.
+Do not use tables, instead use bullet list. The output will be a markdown
+"""
+
+
+
+
+# write a simple soccer player scout report for each player on it based on their key metrics in the dataframe, please use the player position in the column PlayerPos to determine which metrics are need it in the report, metrics must be included always in a paragraph style: {rec_result}
 # by player position what are the key metrics based on columns and with that metrics write a player scout report for every player in the data: {rec_result}
-order_txt = str(text_string) #+ data_text
+order_txt = str(text_string)  # + data_text
 viz = st.button("View AI Scout Report", type="primary")
 
 if viz:
@@ -320,16 +326,17 @@ if viz:
 
     ### Generacion de PDF
     pdf = MarkdownPdf(toc_level=1)
-    leagues_txt  = ', '.join(select_comp)
+    leagues_txt = ', '.join(select_comp)
     pdf.add_section(Section("# Technical Scout: " + str(players) + "\n"
-                            + "Leagues: " + str(leagues_txt) + " | " + "Between " + str(int(start_age)) + " and " + str(int(end_age)) + " | " + "At least " + str(int(start_min)) + " minutes" + "\n"
-                            + "\n" + response.text ,toc=False))
+                            + "Leagues: " + str(leagues_txt) + " | " + "Between " + str(int(start_age)) + " and " + str(
+        int(end_age)) + " | " + "At least " + str(int(start_min)) + " minutes" + "\n"
+                            + "\n" + response.text, toc=False))
     pdf.save("AI Technical Scout Report.pdf")
 
     with open("AI Technical Scout Report.pdf", "rb") as file:
         btn = st.download_button(
-                label="Download Report",
-                data=file,
-                file_name="AI_Technical_Report.pdf"
-                #mime="image/png"
-              )
+            label="Download Report",
+            data=file,
+            file_name="AI_Technical_Report.pdf"
+            # mime="image/png"
+        )
