@@ -308,7 +308,7 @@ Player Name | Age | Team | Player Position | Nationality
 Top 10 metrics for each category: attack, defense, posession
 In which metrics the player is better than the others
 player analysis
-Final recommendation.
+Final recommendation highlighting the top priority.
 Do not use tables, instead use bullet list. The output will be a markdown
 """
 

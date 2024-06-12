@@ -49,7 +49,7 @@ def viz_previous_events(soccer_data=None, game=None, team=None, minute=None):
 
 
     genai.configure(api_key=gem_api)
-    model = genai.GenerativeModel('gemini-pro')
+    model = genai.GenerativeModel('gemini-1.5-flash')
 
     # soccer_data = soccer_data.sort_values(by=["date", "game", "minute", "second"])
 
@@ -361,13 +361,13 @@ def viz_previous_events(soccer_data=None, game=None, team=None, minute=None):
     #print(text)
 
     order_txt = "I'm going to give you a Index, team, player name, minute, second and action for a soccer game goal, to help you understand the position of the action the pitch widht is 100 and the height is 100, so analize the position of the action, do not include coordinates, and please re-create briefly the play using the data, use only the information provided, put between () the Index, include all the actions for the teams in order based on the Index, and i want a bulleted list:" + text
-    response = model.generate_content(order_txt)
+
 
     #order_txt2 = "The next data is for a secuence of action before a goal is scored, please analyze it and write a brief and simple description of the play as a soccer commentator, use only the information provided in the order provided:  " + text
     #response2 = model.generate_content(order_txt2)
 
-    order_txt2 = f"The next dataframe {narra_df} with the next columns {narra_df.columns}, this data is for actions previous a goal in a soccer game, please use it to write a description of all the play previous a goal is scored as football commentator using only the data in the dataframe provided."
-    response2 = model.generate_content(order_txt2)
+    #order_txt2 = f"The next dataframe {narra_df} with the next columns {narra_df.columns}, this data is for actions previous a goal in a soccer game, please use it to write a description of all the play previous a goal is scored as football commentator using only the data in the dataframe provided."
+    #response2 = model.generate_content(order_txt2)
     # print(response.text)
 
     # ax.text(x=0.1, y=0.5,
@@ -385,10 +385,13 @@ def viz_previous_events(soccer_data=None, game=None, team=None, minute=None):
             file_name=fn,
             mime="image/png"
         )
+
+    response = model.generate_content(order_txt)
+
     st.markdown('***AI GOAL DESCRIPTION***')
     st.markdown(response.text)
-    st.markdown('***AI GOAL COMMENTATOR***')
-    st.markdown(response2.text)
+    #st.markdown('***AI GOAL COMMENTATOR***')
+    #st.markdown(response2.text)
 
 
 
@@ -399,7 +402,7 @@ with st.sidebar:
     st.subheader('Big 5 Leagues')
     st.write = 'Sidebar'
     leagues = st.selectbox('Select a League',
-                           ('Premier League', 'Bundesliga', 'Serie A', 'Ligue 1',
+                           ('Premier League', 'Bundesliga', 'Serie A', 'Ligue 1','EURO',
                             'La Liga','Premiership','Eredivisie','Primeira Liga',
                             'MLS','Jupiter ProLeague','UCL','EUL','Championship (ENG)','Premier League (RUS)'))
     data = load_data(app=1,league=leagues)
