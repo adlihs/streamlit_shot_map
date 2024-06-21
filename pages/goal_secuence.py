@@ -402,7 +402,7 @@ with st.sidebar:
     st.subheader('Big 5 Leagues')
     st.write = 'Sidebar'
     leagues = st.selectbox('Select a League',
-                           ('Premier League', 'Bundesliga', 'Serie A', 'Ligue 1','EURO',
+                           ('Premier League', 'Bundesliga', 'Serie A', 'Ligue 1','EURO','AMERICA',
                             'La Liga','Premiership','Eredivisie','Primeira Liga',
                             'MLS','Jupiter ProLeague','UCL','EUL','Championship (ENG)','Premier League (RUS)'))
     data = load_data(app=1,league=leagues)

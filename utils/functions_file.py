@@ -128,6 +128,10 @@ def load_data(app, league=None):
             event_data = pd.read_parquet(
                 'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/EURO_match_events.parquet')
 
+        elif league == 'AMERICA':
+            event_data = pd.read_parquet(
+                'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/AMERICA_match_events.parquet')
+
         elif league == 'Primeira Liga':
             event_data = pd.read_parquet(
                 'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/POR_match_events.parquet')
