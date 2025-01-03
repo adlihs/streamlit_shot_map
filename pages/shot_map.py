@@ -20,7 +20,6 @@ def player_shot_map(player=None):
     data = shot_data[shot_data['player'] == player]  # get_player_shoot_data(player=player)
     data = data.drop_duplicates()
     # team_id = data.iloc[0]['team_id']
-    print(shot_data.head(10))
     team_name = data.iloc[0]['home_away']  # get_team_name(team_id=team_id)
 
     data_gol = data[data.result == 'Goal'].copy()
