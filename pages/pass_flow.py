@@ -35,8 +35,8 @@ def game_flow_pass_map(soccer_data, game, game_date):
     # Get other game details
     game = pass_df['game'].unique()[0]
     league = pass_df['league'].unique()[0]
-    season = ""
     season = pass_df['season'].unique()[0]
+    season = "24-25"
 
     # Get successful pass data for each team
     team1_pass_df = pass_df[pass_df['team'] == team1]
