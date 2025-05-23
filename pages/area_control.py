@@ -34,6 +34,7 @@ def area_control_viz(soccer_data,game,game_date):
     game = event_data['game'].unique()[0]
     league = event_data['league'].unique()[0]
     season = event_data['season'].unique()[0]
+    season ="24-25"
 
     home_team_passes = event_data.query("team == @team1 ")
     away_team_passes = event_data.query("team == @team2 ")
