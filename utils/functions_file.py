@@ -84,7 +84,7 @@ def load_data(app, league=None):
             event_data = pd.read_parquet(
                 'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/ITA_match_events.parquet')
         
-        elif league == 'WC Club':
+        elif league == 'WC Club 2025':
             event_data = pd.read_parquet(
                 'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/WCC_match_events.parquet')
 
