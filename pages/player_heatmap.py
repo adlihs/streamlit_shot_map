@@ -81,7 +81,7 @@ with st.sidebar:
     leagues = st.selectbox('Select a League',
                            ('Premier League', 'Bundesliga', 'Serie A',
                             'Ligue 1', 'La Liga','Premiership','Eredivisie',
-                            'Primeira Liga','MLS','Jupiter ProLeague','EURO','AMERICA', 'WC Club',
+                            'Primeira Liga','MLS','Jupiter ProLeague','EURO','AMERICA', 'WC Club 2025',
                             'UCL','EUL','Championship (ENG)','Premier League (RUS)'))
     data = load_data(app=1,league=leagues)
     data = data[data['league'] == leagues]
