@@ -47,7 +47,7 @@ def player_shot_map(player=None):
     # total_xG
     # total_shots
 
-    season = data['season'].iloc[0]
+    season = '2024-2025'#data['season'].iloc[0]
     league = data['league_name'].iloc[0]
 
     fm_rubik = FontManager('https://raw.githubusercontent.com/google/fonts/main/ofl/'
