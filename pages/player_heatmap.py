@@ -29,7 +29,7 @@ def player_heatmap(soccer_data, player_name, custom_color):
     # Details vars
     team_n = player_data['team'].unique()[0]
     league_n = player_data['league'].unique()[0]
-    season_n = player_data['season'].unique()[0]
+    season_n = '24-25'#player_data['season'].unique()[0]
 
     # Pitch config
     pitch = Pitch(pitch_type='opta',
