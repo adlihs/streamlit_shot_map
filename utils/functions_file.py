@@ -141,7 +141,7 @@ def load_data(app, league=None):
                 'https://raw.githubusercontent.com/adlihs/streamlit_shot_map/master/data/POR_match_events.parquet')
 
         event_data[['date', 'game']] = event_data['game'].str.split(" ", n=1, expand=True)
-        event_data['season'] = '23-24'
+        event_data['season'] = '25-26'
         event_data = event_data[event_data['league'] == league]
 
         event_data = event_data[event_data['player'].notna()]
