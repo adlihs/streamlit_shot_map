@@ -49,7 +49,7 @@ def viz_previous_events(soccer_data=None, game=None, team=None, minute=None):
 
 
     genai.configure(api_key=gem_api)
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-3.5-flash')
 
     # soccer_data = soccer_data.sort_values(by=["date", "game", "minute", "second"])
 
